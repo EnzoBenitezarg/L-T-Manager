@@ -1,6 +1,4 @@
-<div align="center">
-
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:111827,100:3b82f6&height=180&section=header&text=L%26T%20Manager&fontSize=48&fontColor=ffffff&fontAlignY=38&desc=SaaS%20de%20gesti%C3%B3n%20para%20peque%C3%B1os%20negocios&descAlignY=60&descSize=18" width="100%"/>
+# L&T Manager
 
 ### Gestión simple para negocios que quieren trabajar mejor.
 
@@ -176,4 +174,5 @@ http://localhost:3000
 
 Una forma más simple de administrar un negocio.
 
+Hecho por el equipo de L&T Software
 </div>
