@@ -1,0 +1,241 @@
+.page {
+  max-width: 900px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero {
+  margin-bottom: 2rem;
+}
+
+.heroTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: -0.03em;
+}
+
+.heroSub {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  margin-top: 0.25rem;
+  text-transform: capitalize;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.statLink {
+  text-decoration: none;
+  display: block;
+}
+
+.statCard {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  cursor: pointer;
+  transition: all var(--transition-fast) !important;
+}
+
+.statCard:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg) !important;
+}
+
+.statIcon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.statValue {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  line-height: 1;
+}
+
+.statLabel {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-top: 0.25rem;
+  font-weight: 500;
+}
+
+.loadingGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.skeleton {
+  height: 120px;
+  background: linear-gradient(90deg, var(--color-border) 25%, #e9ecef 50%, var(--color-border) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-lg);
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.section {
+  margin-top: 0.5rem;
+}
+
+.sectionTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 0.75rem;
+}
+
+.turnosList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.turnoItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.875rem 1.25rem;
+}
+
+.turnoHora {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  min-width: 3.5rem;
+}
+
+.turnoInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.turnoCliente {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.turnoServicio {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.turnoVerLink {
+  font-size: 0.85rem;
+  color: var(--color-primary);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.emptyCard {
+  padding: 2rem;
+  text-align: center;
+}
+
+.emptyText {
+  color: var(--color-text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.emptyLink {
+  color: var(--color-primary);
+  font-weight: 500;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+/* Onboarding */
+.onboardingCard {
+  margin-top: 2rem;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  border-color: transparent;
+  color: white;
+}
+
+.onboardingIcon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.onboardingTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: white;
+}
+
+.onboardingSteps {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-md);
+  padding: 0.875rem 1rem;
+  text-decoration: none;
+  color: white;
+  transition: background var(--transition-fast);
+}
+
+.step:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.stepNum {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.stepTitle {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.stepDesc {
+  font-size: 0.8rem;
+  opacity: 0.8;
+  margin-top: 0.1rem;
+}
+
+@media (max-width: 700px) {
+  .statsGrid, .loadingGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 420px) {
+  .statsGrid, .loadingGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

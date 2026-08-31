@@ -1,0 +1,95 @@
+.page {
+  max-width: 700px;
+  animation: fadeIn var(--t-normal) forwards;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-4) var(--sp-5);
+}
+
+.icon {
+  font-size: 2rem;
+  background: var(--c-green-dim);
+  width: 48px;
+  height: 48px;
+  border-radius: var(--r-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.info {
+  flex: 1;
+}
+
+.monto {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--c-green);
+}
+
+.desc {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--c-text);
+  margin-top: 2px;
+}
+
+.meta {
+  font-size: 0.8rem;
+  color: var(--c-text-2);
+  margin-top: 4px;
+}
+
+.empty {
+  text-align: center;
+  color: var(--c-text-2);
+  padding: var(--sp-12) 0;
+}
+
+.formGroup {
+  margin-bottom: var(--sp-4);
+}
+
+.label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  margin-bottom: var(--sp-2);
+  color: var(--c-text-2);
+}
+
+.select {
+  width: 100%;
+  padding: 0.5625rem 0.75rem;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  font-size: 0.9375rem;
+  color: var(--c-text);
+  background: var(--c-surface);
+  outline: none;
+  transition: all var(--t-fast);
+  font-family: var(--font);
+}
+
+.select:focus {
+  border-color: var(--c-accent);
+  box-shadow: 0 0 0 3px rgba(201,123,47,0.12);
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--sp-3);
+  margin-top: var(--sp-2);
+}

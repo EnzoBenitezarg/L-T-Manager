@@ -1,0 +1,12 @@
+.card {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-xs);
+  transition: box-shadow var(--t-normal), border-color var(--t-normal);
+}
+
+.card:hover {
+  box-shadow: var(--sh-sm);
+  border-color: var(--c-border-2);
+}

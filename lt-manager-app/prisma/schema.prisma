@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./negocio.db"
+}
+
+model Cliente {
+  id        Int      @id @default(autoincrement())
+  nombre    String
+  telefono  String?
+  email     String?
+  creadoEn  DateTime @default(now())
+  turnos    Turno[]
+}
+
+model Servicio {
+  id          Int      @id @default(autoincrement())
+  nombre      String
+  descripcion String?
+  precio      Float
+  duracion    Int      // Duración en minutos
+  turnos      Turno[]
+}
+
+model Turno {
+  id         Int      @id @default(autoincrement())
+  fecha      DateTime
+  estado     String   @default("PENDIENTE") // PENDIENTE, COMPLETADO, CANCELADO
+  
+  clienteId  Int
+  cliente    Cliente  @relation(fields: [clienteId], references: [id])
+  
+  servicioId Int
+  servicio   Servicio @relation(fields: [servicioId], references: [id])
+  
+  pago       Pago?
+}
+
+model Pago {
+  id         Int      @id @default(autoincrement())
+  monto      Float
+  metodo     String   @default("EFECTIVO") // EFECTIVO, TRANSFERENCIA, TARJETA
+  fecha      DateTime @default(now())
+  
+  turnoId    Int      @unique
+  turno      Turno    @relation(fields: [turnoId], references: [id])
+}

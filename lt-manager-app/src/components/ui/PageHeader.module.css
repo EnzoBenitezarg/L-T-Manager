@@ -1,0 +1,26 @@
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-6);
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 650;
+  color: var(--c-text);
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-size: 0.875rem;
+  color: var(--c-text-2);
+  margin-top: var(--sp-1);
+  line-height: 1.4;
+}
+
+.action {
+  flex-shrink: 0;
+}
