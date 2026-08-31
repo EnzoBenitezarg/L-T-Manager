@@ -24,18 +24,6 @@ Sin intentar reemplazar WhatsApp. **WhatsApp sigue siendo el canal con el client
 
 ---
 
-## Preview
-
-> Capturas del MVP
-
-<div align="center">
-
-<img src="./docs/dashboard.png" alt="L&T Manager Dashboard" width="85%">
-
-</div>
-
----
-
 ## Funcionalidades
 
 | Módulo | Estado |
