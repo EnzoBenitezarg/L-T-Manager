@@ -1,40 +1,179 @@
-# Resumen del Proyecto: L&T Manager
+<div align="center">
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:111827,100:3b82f6&height=180&section=header&text=L%26T%20Manager&fontSize=48&fontColor=ffffff&fontAlignY=38&desc=SaaS%20de%20gesti%C3%B3n%20para%20peque%C3%B1os%20negocios&descAlignY=60&descSize=18" width="100%"/>
+
+### Gestión simple para negocios que quieren trabajar mejor.
+
+[![Status](https://img.shields.io/badge/status-MVP%20funcional-22c55e?style=flat-square)](.)
+[![Next.js](https://img.shields.io/badge/Next.js-App%20Router-000000?style=flat-square&logo=next.js)](https://nextjs.org/)
+[![Prisma](https://img.shields.io/badge/Prisma-ORM-2D3748?style=flat-square&logo=prisma)](https://www.prisma.io/)
+[![SQLite](https://img.shields.io/badge/SQLite-database-003B57?style=flat-square&logo=sqlite)](https://www.sqlite.org/)
+[![CSS](https://img.shields.io/badge/Vanilla%20CSS-custom-1572B6?style=flat-square&logo=css3)](https://developer.mozilla.org/en-US/docs/Web/CSS)
+
+</div>
 
 ---
 
-## 💡 1. Visión y Propósito del Proyecto:
-* **¿Qué es?:** SaaS por suscripción mensual para ordenar la gestión interna de pequeños negocios (barberías, centros de estética, gimnasios, comercios).
-* **Filosofía:** No reemplaza WhatsApp como canal con el cliente, sino que organiza por detrás turnos, clientes, servicios y cobros.
-* **Stack y Arquitectura:** tendra Next.js (App Router), SQLite embebida (`negocio.db`), Prisma ORM y Vanilla CSS a medida (sin librerías pesadas, optimizado). 100% ejecutable en local durate las pruebas de desarrollo.
+## Qué es
+
+**L&T Manager** es un SaaS pensado para pequeños negocios como **barberías, centros de estética, gimnasios y comercios**.
+
+Centraliza la gestión interna de:
+
+`clientes` · `servicios` · `turnos` · `cobros`
+
+Sin intentar reemplazar WhatsApp. **WhatsApp sigue siendo el canal con el cliente; L&T Manager organiza todo lo que ocurre detrás.**
 
 ---
 
-## ⚡ 2. Estado Actual del MVP (Desarrollado y Funcional)
-- **Dashboard:** Tablero con métricas en tiempo real, próximos turnos y guía de inicio rápido en 3 pasos.
-- **Clientes:** Alta, edición, búsqueda instantánea y contador de turnos tomados.
-- **Servicios:** Registro de servicios con precios y duraciones personalizadas.
-- **Turnos:** Agenda interactiva con navegador por fechas (Ayer/Hoy/Mañana) y gestión de estados (Pendiente, Completado, Cancelado).
-- **Cobros:** Registro de pagos (Efectivo, Tarjeta, Transferencia), vinculación a turno y cálculo del total recaudado.
+## Preview
+
+> Capturas del MVP
+
+<div align="center">
+
+<img src="./docs/dashboard.png" alt="L&T Manager Dashboard" width="85%">
+
+</div>
 
 ---
 
-## 🎯 3. Funcionalidades Pendientes (Roadmap a Versión Final)
-- **Importación Masiva:** Carga rápida de clientes desde archivos CSV/Excel o pegado de contactos de WhatsApp.
-- **Ficha del Cliente:** Historial cronológico individual de atenciones, servicios consumidos, monto total gastado y notas.
-- **Módulo de Productos:** Control e inventario de productos físicos para venta directa.
-- **PWA & Exportación:** Instalación del SaaS en el celular como App sin tienda (`manifest.json`) y exportación contable a PDF/Excel.
+## Funcionalidades
+
+| Módulo | Estado |
+| --- | :---: |
+| Dashboard con métricas | `Listo` |
+| Gestión de clientes | `Listo` |
+| Gestión de servicios | `Listo` |
+| Agenda de turnos | `Listo` |
+| Estados de turnos | `Listo` |
+| Registro de cobros | `Listo` |
+| Importación masiva | `Próximo` |
+| Ficha completa del cliente | `Próximo` |
+| Gestión de productos | `Próximo` |
+| PWA | `Próximo` |
+| Exportación PDF / Excel | `Próximo` |
 
 ---
 
-## 🔑 4. Autenticación, Onboarding y Modularidad SaaS
-- **Login & Verificación:** Autenticación por Email con detección automática del plan activo.
-- **Wizard por Rubro:** Al crear cuenta, el usuario ingresa nombre de negocio y rubro (Barbería, Estética, Gimnasio, Comercio), habilitando un preset inicial de funciones.
-- **Sidebar Modular:** Ajustes de sesión donde el usuario activa o desmarca qué secciones quiere visibles en su barra lateral.
+## Stack
+
+<div align="center">
+
+[![Next.js](https://skillicons.dev/icons?i=nextjs)](https://nextjs.org/)
+[![TypeScript](https://skillicons.dev/icons?i=typescript)](https://www.typescriptlang.org/)
+[![Prisma](https://skillicons.dev/icons?i=prisma)](https://www.prisma.io/)
+[![SQLite](https://skillicons.dev/icons?i=sqlite)](https://www.sqlite.org/)
+[![CSS](https://skillicons.dev/icons?i=css)](https://developer.mozilla.org/en-US/docs/Web/CSS)
+[![Git](https://skillicons.dev/icons?i=git)](https://git-scm.com/)
+
+</div>
+
+**Frontend / Backend:** Next.js + App Router  
+**Base de datos:** SQLite  
+**ORM:** Prisma  
+**Estilos:** Vanilla CSS  
+**Desarrollo:** 100% ejecutable en local
 
 ---
 
-## 💎 5. Estructura Comercial: 3 Planes de Suscripción
+## Arquitectura
 
-1. **🟢 Plan Inicial (Starter):** 1 solo negocio • Hasta 50 turnos/mes • Hasta 100 clientes • 1 usuario • Menú estándar por rubro • Sin exportación.
-2. **🔵 Plan Pyme (Profesional):** Hasta 3 negocios/sucursales • Hasta 500 turnos/mes por negocio • Clientes ilimitados • Sidebar 100% personalizable • Hasta 3 empleados/negocio • Links rápidos de WhatsApp (`wa.me`) • Exportación PDF/Excel.
-3. **🟣 Plan Empresa (Growth):** Hasta 100 negocios/sucursales • Turnos, clientes y empleados ilimitados • Recordatorios automáticos por API de WhatsApp • Analítica avanzada con gráficos de ventas y exportación contable completa.
+```text
+L&T Manager
+│
+├── Dashboard
+├── Clientes
+├── Servicios
+├── Turnos
+├── Cobros
+│
+├── Autenticación
+├── Onboarding
+├── Planes SaaS
+└── Sidebar modular
+        │
+        ▼
+     Prisma
+        │
+        ▼
+   negocio.db
+```
+
+---
+
+## SaaS
+
+La plataforma está pensada desde el inicio para funcionar con distintos tipos de negocios y diferentes niveles de suscripción.
+
+| | Starter | Profesional | Growth |
+| --- | :---: | :---: | :---: |
+| Negocios | 1 | 3 | 100 |
+| Turnos / mes | 50 | 500 / negocio | Ilimitados |
+| Clientes | 100 | Ilimitados | Ilimitados |
+| Empleados | 1 usuario | 3 / negocio | Ilimitados |
+| Sidebar personalizable | — | Sí | Sí |
+| WhatsApp rápido | — | Sí | Sí |
+| PDF / Excel | — | Sí | Sí |
+| Recordatorios WhatsApp | — | — | Sí |
+| Analítica avanzada | — | — | Sí |
+
+---
+
+## Roadmap
+
+```text
+MVP
+ │
+ ├── Clientes
+ ├── Servicios
+ ├── Turnos
+ ├── Cobros
+ └── Dashboard
+       │
+       ▼
+V1
+ │
+ ├── Importación masiva
+ ├── Ficha del cliente
+ ├── Productos
+ ├── PWA
+ └── Exportaciones
+       │
+       ▼
+Growth
+ │
+ ├── WhatsApp API
+ ├── Recordatorios
+ ├── Analítica avanzada
+ └── Gestión multi-negocio
+```
+
+---
+
+## Desarrollo local
+
+```bash
+git clone <repository-url>
+cd l-t-manager
+npm install
+npx prisma generate
+npx prisma migrate dev
+npm run dev
+```
+
+La aplicación se ejecuta localmente en:
+
+```text
+http://localhost:3000
+```
+
+---
+
+<div align="center">
+
+**L&T Manager**
+
+Una forma más simple de administrar un negocio.
+
+</div>
