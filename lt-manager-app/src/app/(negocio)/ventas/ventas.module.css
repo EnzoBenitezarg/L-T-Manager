@@ -1,0 +1,447 @@
+.page {
+  max-width: 900px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.totalBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--c-accent-dim);
+  color: var(--c-text);
+  border-radius: var(--r-md);
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+}
+
+.totalBar strong {
+  font-size: 1.1rem;
+  color: var(--c-accent);
+}
+
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.tab {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: var(--r-md);
+  color: var(--c-text-2);
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  transition: all var(--t-fast);
+}
+
+.tabActive {
+  background: var(--c-accent);
+  color: white;
+  border-color: var(--c-accent);
+}
+
+.tipoSwitch {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.tipoBtn {
+  flex: 1;
+  padding: 0.9rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: var(--r-md);
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  color: var(--c-text-2);
+  transition: all var(--t-fast);
+}
+
+.tipoActive {
+  background: var(--c-accent);
+  color: white;
+  border-color: var(--c-accent);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.ventaCard {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1.1rem;
+}
+
+.hTipo {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.tipoTurno {
+  background: var(--c-green-dim);
+}
+
+.tipoProducto {
+  background: var(--c-accent-dim);
+}
+
+.info {
+  flex: 1;
+}
+
+.desc {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--c-text);
+}
+
+.meta {
+  font-size: 0.78rem;
+  color: var(--c-text-2);
+  margin-top: 2px;
+}
+
+.ventaRight {
+  flex-shrink: 0;
+}
+
+.monto {
+  font-weight: 700;
+  color: var(--c-accent);
+  font-size: 1.05rem;
+  text-align: right;
+}
+
+.empty {
+  text-align: center;
+  color: var(--c-text-2);
+  padding: 3rem 0;
+}
+
+.venta {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 1rem;
+}
+
+.catalogo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.catItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  padding: 0.6rem 0.9rem;
+  background: var(--c-surface);
+  transition: all var(--t-fast);
+  text-align: left;
+}
+
+.catItem:hover:not(:disabled) {
+  border-color: var(--c-accent);
+}
+
+.catItem:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.catNombre {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--c-text);
+}
+
+.catPrecio {
+  font-weight: 700;
+  color: var(--c-accent);
+  font-size: 0.9rem;
+}
+
+.catStock {
+  font-size: 0.75rem;
+  color: var(--c-text-2);
+}
+
+.carrito {
+  background: var(--c-bg);
+  border-radius: var(--r-md);
+  padding: 0.9rem;
+}
+
+.carritoTitulo {
+  font-weight: 700;
+  color: var(--c-text);
+  margin-bottom: 0.5rem;
+}
+
+.carritoVacio {
+  color: var(--c-text-2);
+  font-size: 0.85rem;
+  padding: 1rem 0;
+}
+
+.carritoItem {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--c-text);
+  padding: 0.3rem 0;
+  border-bottom: 1px solid var(--c-border-2);
+}
+
+.carritoTotal {
+  font-weight: 700;
+  color: var(--c-text);
+  margin: 0.6rem 0;
+}
+
+.ventaBtns {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form {}
+.formGroup {
+  margin-bottom: 1rem;
+}
+
+.label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  color: var(--c-text-2);
+}
+
+.select {
+  width: 100%;
+  padding: 0.5625rem 0.75rem;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  font-size: 0.9375rem;
+  color: var(--c-text);
+  background: var(--c-surface);
+  outline: none;
+  transition: all var(--t-fast);
+  font-family: var(--font);
+}
+
+.select:focus {
+  border-color: var(--c-accent);
+  box-shadow: 0 0 0 3px rgba(201,123,47,0.12);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+/* ── Express / Registrar ─────────────────────────── */
+.toast {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--c-navy);
+  color: #fff;
+  padding: 0.65rem 1.25rem;
+  border-radius: var(--r-full);
+  font-size: 0.875rem;
+  font-weight: 600;
+  z-index: 300;
+  box-shadow: var(--sh-lg);
+  animation: fadeIn 0.2s ease;
+}
+
+.registrar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.expressSection {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  padding: 1rem;
+}
+
+.expressTitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 700;
+  color: var(--c-text);
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+}
+
+.expressCount {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--c-accent);
+  background: var(--c-accent-dim);
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--r-full);
+}
+
+.expressEmpty {
+  font-size: 0.85rem;
+  color: var(--c-text-2);
+  padding: 0.5rem 0;
+}
+
+.expressMetodos {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.expressMetodosLabel {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--c-text-2);
+}
+
+.expressMetodoBtn {
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-full);
+  color: var(--c-text-2);
+  background: var(--c-surface);
+  transition: all var(--t-fast);
+}
+
+.expressMetodoBtnActive {
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+  color: #fff;
+}
+
+.expressItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 0.9rem;
+}
+
+.expressInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.expressNombre {
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--c-text);
+}
+
+.expressServicio {
+  font-size: 0.78rem;
+  color: var(--c-text-2);
+  margin-top: 1px;
+}
+
+.expressPrecio {
+  font-weight: 700;
+  color: var(--c-accent);
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+.expressBtns {
+  display: flex;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.cobrarBtn {
+  padding: 0.45rem 1rem;
+  border: none;
+  border-radius: var(--r-md);
+  background: var(--c-green);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity var(--t-fast);
+}
+.cobrarBtn:hover { opacity: 0.9; }
+.cobrarBtn:disabled { opacity: 0.6; }
+
+.debeBtn {
+  padding: 0.45rem 0.8rem;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  background: transparent;
+  color: var(--c-text-2);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.debeBtn:hover {
+  border-color: var(--c-yellow);
+  color: var(--c-yellow);
+}
+
+.venderBtn {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px dashed var(--c-accent);
+  border-radius: var(--r-md);
+  background: var(--c-accent-dim);
+  color: var(--c-accent);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--t-fast);
+}
+.venderBtn:hover {
+  background: var(--c-accent);
+  color: #fff;
+}
+
+.expressHint {
+  font-size: 0.78rem;
+  color: var(--c-text-2);
+  margin-top: 0.5rem;
+}

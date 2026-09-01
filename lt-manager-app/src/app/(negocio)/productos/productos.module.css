@@ -1,0 +1,138 @@
+.page {
+  max-width: 900px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.headerActions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.alerta {
+  background: var(--c-yellow-dim);
+  color: var(--c-yellow);
+  border: 1px solid var(--c-yellow);
+  border-radius: var(--r-md);
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.sectionTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--c-text);
+  margin-bottom: 0.75rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 0.75rem;
+}
+
+.productoCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+}
+
+.productoNombre {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--c-text);
+}
+
+.productoPrecio {
+  font-size: 0.9rem;
+  color: var(--c-accent);
+  font-weight: 700;
+  margin-top: 0.15rem;
+}
+
+.stockBadge {
+  font-size: 0.78rem;
+  color: var(--c-text-2);
+  margin-top: 0.3rem;
+}
+
+.stockBajo {
+  color: var(--c-red);
+  font-weight: 600;
+}
+
+.comboServicios {
+  font-size: 0.8rem;
+  color: var(--c-text-2);
+  margin-top: 0.3rem;
+}
+
+.productoActions {
+  display: flex;
+  gap: 0.3rem;
+  flex-shrink: 0;
+}
+
+.deleteBtn {
+  color: var(--c-red) !important;
+}
+
+.empty {
+  text-align: center;
+  color: var(--c-text-2);
+  padding: 2.5rem 0;
+  font-size: 0.95rem;
+}
+
+.form {}
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin: 0.75rem 0 0.25rem;
+  color: var(--c-text);
+}
+
+.checkList {
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.checkItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--c-border-2);
+  font-size: 0.85rem;
+  cursor: pointer;
+  color: var(--c-text);
+}
+
+.checkItem:last-child {
+  border-bottom: none;
+}

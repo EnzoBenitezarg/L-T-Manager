@@ -1,0 +1,293 @@
+.page {
+  max-width: 900px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: var(--sp-5);
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.seccion {
+  padding: var(--sp-6);
+}
+
+.seccionTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--c-text);
+  margin: 0 0 var(--sp-3);
+}
+
+.hint {
+  font-size: 0.8rem;
+  color: var(--c-text-2);
+  margin: var(--sp-2) 0 var(--sp-4);
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--c-text);
+}
+
+.rubros {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-2);
+}
+
+.rubroBtn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--sp-2);
+  padding: var(--sp-3);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  background: var(--c-surface);
+  color: var(--c-text);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all var(--t-fast);
+}
+.rubroBtn:hover { border-color: var(--c-accent); }
+.rubroBtnActive {
+  border-color: var(--c-accent);
+  background: var(--c-accent-dim);
+  color: var(--c-accent-hover);
+  font-weight: 600;
+}
+
+/* ── Horarios de atención ───────────────────────────── */
+.horarios {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.horarioRow {
+  display: grid;
+  grid-template-columns: 84px auto 1fr;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-2) var(--sp-3);
+  border: 1px solid var(--c-border-2);
+  border-radius: var(--r-md);
+  background: var(--c-surface-2);
+}
+
+.horarioDia {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--c-text);
+}
+
+.horarioToggle {
+  display: flex;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+
+.horarioBtn {
+  padding: 0.5rem 0.9rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--c-text-2);
+  background: var(--c-surface);
+  transition: all var(--t-fast);
+  min-height: 38px;
+}
+.horarioBtn:not(.horarioBtnOn):hover {
+  background: var(--c-accent-dim);
+  color: var(--c-accent-hover);
+}
+.horarioBtnOn {
+  background: var(--c-accent);
+  color: #fff;
+}
+
+.horarioTimes {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--sp-2);
+}
+
+.horarioTime {
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  background: var(--c-surface);
+  color: var(--c-text);
+  font-size: 0.85rem;
+}
+
+.horarioSep {
+  font-size: 0.8rem;
+  color: var(--c-text-3);
+}
+
+.horarioActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--sp-2);
+  margin-top: var(--sp-4);
+}
+
+@media (max-width: 600px) {
+  .horarioRow {
+    grid-template-columns: 1fr auto;
+  }
+  .horarioTimes {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+  }
+}
+
+.modulos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+.modulo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-md);
+  border: 1px solid var(--c-border);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all var(--t-fast);
+}
+
+.moduloOn {
+  background: var(--c-accent-dim);
+  border-color: var(--c-accent);
+  color: var(--c-accent-hover);
+}
+
+.moduloOff {
+  background: var(--c-surface);
+  color: var(--c-text-2);
+  opacity: 0.7;
+}
+
+.moduloFijo {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.moduloIcon {
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.moduloLock {
+  font-size: 0.65rem;
+  color: var(--c-text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.error,
+.msg {
+  padding: var(--sp-3);
+  border-radius: var(--r-md);
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+.error {
+  background: var(--c-red-dim);
+  color: var(--c-red);
+}
+
+.msg {
+  background: var(--c-green-dim);
+  color: var(--c-green);
+}
+
+.planCard {
+  padding: var(--sp-6);
+}
+
+.planRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--sp-3) 0;
+  border-bottom: 1px solid var(--c-border-2);
+}
+
+.planRow:last-of-type {
+  border-bottom: none;
+}
+
+.planLabel {
+  font-size: 0.8rem;
+  color: var(--c-text-2);
+}
+
+.planValue {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--c-text);
+  text-transform: capitalize;
+}
+
+.exportGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.exportBtn {
+  display: block;
+  text-align: center;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  background: var(--c-surface-2);
+  color: var(--c-text);
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: all var(--t-fast);
+}
+
+.exportBtn:hover {
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+  background: var(--c-accent-dim);
+}

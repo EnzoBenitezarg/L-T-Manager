@@ -1,0 +1,375 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./negocio.db"
+}
+
+// ─── Usuarios y Negocios (SaaS) ─────────────────────────────────
+model Usuario {
+  id        Int       @id @default(autoincrement())
+  nombre    String
+  email     String    @unique
+  password  String    // hash bcrypt
+  plan      String    @default("STARTER") // STARTER, PYME, EMPRESA
+  creadoEn  DateTime  @default(now())
+  negocios  Negocio[]
+  miembros  Miembro[]
+}
+
+// Miembro del negocio (dueño, admin o empleado). Reúne:
+// - acceso/login del usuario a ese negocio (rol),
+// - el "profesional" que aparece en la agenda y recibe comisiones.
+model Miembro {
+  id                Int      @id @default(autoincrement())
+  rol               String   @default("EMPLEADO") // DUENIO, ADMIN, EMPLEADO
+  color             String   @default("#c97b2f")  // color en la agenda visual
+  porcentajeComision Float    @default(0)         // 0..100
+  activo            Boolean  @default(true)
+  creadoEn          DateTime @default(now())
+
+  usuarioId Int
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id])
+  negocioId Int
+  negocio   Negocio  @relation(fields: [negocioId], references: [id])
+
+  turnos  Turno[]  @relation("TurnoProfesional")
+  pagos   Pago[]   @relation("PagoProfesional")
+
+  @@unique([usuarioId, negocioId])
+  @@index([negocioId])
+}
+
+model Negocio {
+  id          Int       @id @default(autoincrement())
+  nombre      String
+  rubro       String    @default("BARBERIA") // BARBERIA, ESTETICA, GIMNASIO, COMERCIO, ALMACEN
+  logo        String?
+  modulos     String?   // JSON con los módulos habilitados para la sidebar
+  config      String?   // JSON con preferencias/opciones del negocio
+  creadoEn    DateTime  @default(now())
+  usuarioId   Int
+  usuario     Usuario   @relation(fields: [usuarioId], references: [id])
+
+  clientes    Cliente[]
+  servicios   Servicio[]
+  turnos      Turno[]
+  bloqueos    Bloqueo[]
+  esperas     ListaEspera[]
+  pagos       Pago[]
+  productos   Producto[]
+  combos      Combo[]
+  gastos      Gasto[]
+  ventas      Venta[]
+  cajas       Caja[]
+  horarios    Horario[]
+  miembros    Miembro[]
+  deudas      Deuda[]
+  deudaAbonos DeudaAbono[]
+  promos      Promo[]
+  giftCards   GiftCard[]
+  presupuestos Presupuesto[]
+  proveedores Proveedor[]
+  compras     Compra[]
+}
+
+// ─── Entidades del negocio ─────────────────────────────────────
+model Cliente {
+  id        Int      @id @default(autoincrement())
+  nombre    String
+  dni       String?
+  telefono  String?
+  email     String?
+  fechaNacimiento DateTime? // cumpleaños (fidelización)
+  puntos    Int      @default(0) // puntos de fidelización
+  notas     String?
+  etiquetas String?
+  creadoEn  DateTime @default(now())
+  negocioId Int
+  negocio   Negocio  @relation(fields: [negocioId], references: [id])
+  turnos    Turno[]
+  esperas   ListaEspera[]
+  deudas    Deuda[]
+  giftCards GiftCard[]
+  presupuestos Presupuesto[]
+}
+
+model Servicio {
+  id          Int      @id @default(autoincrement())
+  nombre      String
+  descripcion String?
+  precio      Float
+  duracion    Int      // Duración en minutos
+  negocioId   Int
+  negocio     Negocio  @relation(fields: [negocioId], references: [id])
+  turnos      Turno[]
+  combos      Combo[]  @relation("ComboServicios")
+}
+
+model Turno {
+  id         Int      @id @default(autoincrement())
+  fecha      DateTime
+  estado     String   @default("PENDIENTE") // PENDIENTE, COMPLETADO, CANCELADO, FALTA_PAGAR
+
+  duracionOverride Int?  // Duración en minutos, si supera la del servicio
+  serieId    String?  // si pertenece a una serie de turnos recurrentes
+
+  negocioId  Int
+  negocio    Negocio  @relation(fields: [negocioId], references: [id])
+
+  clienteId  Int
+  cliente    Cliente  @relation(fields: [clienteId], references: [id])
+
+  servicioId Int
+  servicio   Servicio @relation(fields: [servicioId], references: [id])
+
+  profesionalId Int?
+  profesional   Miembro? @relation("TurnoProfesional", fields: [profesionalId], references: [id])
+
+  pago       Pago?
+  deuda      Deuda?
+}
+
+model Bloqueo {
+  id        Int      @id @default(autoincrement())
+  fecha     DateTime // Día (y hora inicio si es puntual)
+  horaInicio String? // "14:00" o null si es día completo
+  horaFin    String? // "15:00" o null si es día completo
+  diaSemana  Int?     // 0=Domingo..6=Sábado, si es recurrente (día no laborable)
+  motivo     String?
+  creadoEn   DateTime @default(now())
+  negocioId  Int
+  negocio    Negocio  @relation(fields: [negocioId], references: [id])
+}
+
+model ListaEspera {
+  id        Int      @id @default(autoincrement())
+  clienteId Int
+  cliente   Cliente  @relation(fields: [clienteId], references: [id])
+  servicioId Int?
+  texto     String?
+  creadoEn  DateTime @default(now())
+  negocioId Int
+  negocio   Negocio  @relation(fields: [negocioId], references: [id])
+}
+
+model Pago {
+  id         Int      @id @default(autoincrement())
+  monto      Float
+  metodo     String   @default("EFECTIVO") // EFECTIVO, TRANSFERENCIA, TARJETA
+  propina    Float    @default(0)          // propina por separado
+  descuento  Float    @default(0)          // descuento manual ("precio amigo")
+  comision   Float    @default(0)          // comisión del profesional (snapshot al cobrar)
+  promoId    Int?     // promo aplicada (snapshot)
+  giftCardId Int?     // gift card usada (snapshot)
+  fecha      DateTime @default(now())
+  negocioId  Int
+  negocio    Negocio  @relation(fields: [negocioId], references: [id])
+
+  turnoId    Int      @unique
+  turno      Turno    @relation(fields: [turnoId], references: [id])
+
+  profesionalId Int?
+  profesional   Miembro? @relation("PagoProfesional", fields: [profesionalId], references: [id])
+}
+
+model Producto {
+  id          Int      @id @default(autoincrement())
+  nombre      String
+  precio      Float
+  costo       Float    @default(0) // costo de compra (margen)
+  stock       Int      @default(0)
+  stockMinimo Int      @default(0)
+  creadoEn    DateTime @default(now())
+  negocioId   Int
+  negocio     Negocio  @relation(fields: [negocioId], references: [id])
+  items       VentaItem[]
+  compras     CompraItem[]
+}
+
+model Combo {
+  id        Int      @id @default(autoincrement())
+  nombre    String
+  descripcion String?
+  precio    Float
+  negocioId Int
+  negocio   Negocio  @relation(fields: [negocioId], references: [id])
+  servicios Servicio[] @relation("ComboServicios")
+}
+
+model Gasto {
+  id        Int      @id @default(autoincrement())
+  concepto  String
+  monto     Float
+  categoria String?
+  fecha     DateTime @default(now())
+  negocioId Int
+  negocio   Negocio  @relation(fields: [negocioId], references: [id])
+}
+
+model Venta {
+  id        Int      @id @default(autoincrement())
+  fecha     DateTime @default(now())
+  metodo    String   @default("EFECTIVO")
+  negocioId Int
+  negocio   Negocio  @relation(fields: [negocioId], references: [id])
+  items     VentaItem[]
+}
+
+model VentaItem {
+  id         Int      @id @default(autoincrement())
+  ventaId    Int
+  venta      Venta    @relation(fields: [ventaId], references: [id])
+  productoId Int?
+  producto   Producto? @relation(fields: [productoId], references: [id])
+  nombre     String   // nombre del producto vendido (snapshot)
+  cantidad   Int      @default(1)
+  precio     Float    // precio unitario al momento de vender
+}
+
+// Horarios de atención por día de la semana (0=Domingo..6=Sábado).
+// Sin horarios configurados = negocio abierto todo el día / sin límites.
+model Horario {
+  id        Int      @id @default(autoincrement())
+  diaSemana Int      // 0=Domingo..6=Sábado
+  abierto   Boolean  @default(true)
+  apertura  String?  // "09:00" o null si cerrado
+  cierre    String?  // "20:00" o null si cerrado
+  negocioId Int
+  negocio   Negocio  @relation(fields: [negocioId], references: [id])
+
+  @@unique([negocioId, diaSemana])
+  @@index([negocioId])
+}
+
+// Caja diaria persistente: apertura + conteo real por día
+model Caja {
+  id          Int      @id @default(autoincrement())
+  fecha       DateTime
+  apertura    Float    @default(0)
+  conteoReal  Float?
+  negocioId   Int
+  negocio     Negocio  @relation(fields: [negocioId], references: [id])
+  @@unique([negocioId, fecha])
+  @@index([negocioId, fecha])
+}
+
+// ─── Cuenta corriente / fichas de deuda ────────────────────────
+// Una deuda puede estar ligada a un turno (FALTA_PAGAR) o ser suelta
+// (ej: venta fiada). Saldo = total - suma de abonos.
+model Deuda {
+  id        Int      @id @default(autoincrement())
+  concepto  String
+  total     Float
+  saldo     Float
+  estado    String   @default("ABIERTA") // ABIERTA, PAGADA
+  creadoEn  DateTime @default(now())
+  negocioId Int
+  negocio   Negocio  @relation(fields: [negocioId], references: [id])
+  clienteId Int
+  cliente   Cliente  @relation(fields: [clienteId], references: [id])
+  turnoId   Int?     @unique
+  turno     Turno?   @relation(fields: [turnoId], references: [id])
+  abonos    DeudaAbono[]
+}
+
+model DeudaAbono {
+  id        Int      @id @default(autoincrement())
+  monto     Float
+  metodo    String   @default("EFECTIVO")
+  fecha     DateTime @default(now())
+  negocioId Int
+  negocio   Negocio  @relation(fields: [negocioId], references: [id])
+  deudaId   Int
+  deuda     Deuda    @relation(fields: [deudaId], references: [id])
+}
+
+// ─── Promociones, gift cards y fidelización ────────────────────
+model Promo {
+  id        Int      @id @default(autoincrement())
+  nombre    String
+  tipo      String   @default("DESCUENTO_PCT") // DESCUENTO_PCT, DESCUENTO_FIJO
+  valor     Float    // % (5 = 5%) o monto fijo en pesos
+  activa    Boolean  @default(true)
+  hasta     DateTime?
+  creadoEn  DateTime @default(now())
+  negocioId Int
+  negocio   Negocio  @relation(fields: [negocioId], references: [id])
+}
+
+model GiftCard {
+  id        Int      @id @default(autoincrement())
+  codigo    String   // ej: LT-ABCDEF
+  monto     Float
+  saldo     Float
+  creadoEn  DateTime @default(now())
+  negocioId Int
+  negocio   Negocio  @relation(fields: [negocioId], references: [id])
+  clienteId Int?
+  cliente   Cliente? @relation(fields: [clienteId], references: [id])
+}
+
+// ─── Presupuestos / cotizaciones ───────────────────────────────
+model Presupuesto {
+  id          Int      @id @default(autoincrement())
+  numero      Int      // correlativo por negocio
+  estado      String   @default("NUEVO") // NUEVO, ENVIADO, APROBADO, VENCIDO, COBRADO
+  vigenciaDias Int     @default(7)
+  notas       String?
+  creadoEn    DateTime @default(now())
+  negocioId   Int
+  negocio     Negocio  @relation(fields: [negocioId], references: [id])
+  clienteId   Int?
+  cliente     Cliente? @relation(fields: [clienteId], references: [id])
+  items       PresupuestoItem[]
+}
+
+model PresupuestoItem {
+  id             Int    @id @default(autoincrement())
+  presupuestoId  Int
+  presupuesto    Presupuesto @relation(fields: [presupuestoId], references: [id])
+  descripcion    String
+  cantidad       Int    @default(1)
+  precioUnitario Float
+}
+
+// ─── Compras / proveedores ─────────────────────────────────────
+model Proveedor {
+  id        Int      @id @default(autoincrement())
+  nombre    String
+  telefono  String?
+  email     String?
+  notas     String?
+  creadoEn  DateTime @default(now())
+  negocioId Int
+  negocio   Negocio  @relation(fields: [negocioId], references: [id])
+  compras   Compra[]
+}
+
+model Compra {
+  id          Int      @id @default(autoincrement())
+  fecha       DateTime @default(now())
+  monto       Float
+  notas       String?
+  negocioId   Int
+  negocio     Negocio  @relation(fields: [negocioId], references: [id])
+  proveedorId Int?
+  proveedor   Proveedor? @relation(fields: [proveedorId], references: [id])
+  items       CompraItem[]
+}
+
+model CompraItem {
+  id           Int      @id @default(autoincrement())
+  compraId     Int
+  compra       Compra   @relation(fields: [compraId], references: [id])
+  productoId   Int?
+  producto     Producto? @relation(fields: [productoId], references: [id])
+  nombre       String   // snapshot del producto
+  cantidad     Int      @default(1)
+  costoUnitario Float
+}

@@ -1,0 +1,229 @@
+.page {
+  max-width: 900px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.caja {
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.cajaTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--c-text);
+  margin-bottom: 1rem;
+}
+
+.cajaGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+}
+
+.cajaStat {
+  background: var(--c-bg);
+  border-radius: var(--r-md);
+  padding: 0.9rem;
+}
+
+.cajaLabel {
+  font-size: 0.75rem;
+  color: var(--c-text-2);
+  margin-bottom: 0.3rem;
+  font-weight: 500;
+}
+
+.cajaValue {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--c-text);
+}
+
+.negativo {
+  color: var(--c-red);
+}
+
+.cajaConteo {
+  margin-top: 1rem;
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.metodos {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--c-border-2);
+}
+
+.metodosRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.metodoChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: var(--r-full);
+  background: var(--c-surface-2);
+  border: 1px solid var(--c-border);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--c-text);
+}
+
+.metodoChipOff {
+  opacity: 0.45;
+  font-weight: 500;
+  color: var(--c-text-3);
+}
+
+.cajaConteo .cajaLabel {
+  margin-bottom: 0.3rem;
+}
+
+.diferencia {
+  font-size: 0.9rem;
+  color: var(--c-text-2);
+  padding-bottom: 0.5rem;
+}
+
+.cajaInputRow {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: 100%;
+}
+
+.cajaInputRow > div {
+  margin-bottom: 0;
+  flex: 1;
+}
+
+.cajaSaved {
+  font-size: 0.85rem;
+  color: var(--c-green);
+  font-weight: 600;
+  padding-bottom: 0.3rem;
+}
+
+.cajaHistorial {
+  margin-top: 1rem;
+  padding: 1rem 1.25rem;
+}
+
+.cajaHistList {
+  margin-top: 0.5rem;
+}
+
+.cajaHistItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--c-border-2);
+  font-size: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.cajaHistItem:last-child {
+  border-bottom: none;
+}
+
+.cajaHistFecha {
+  font-weight: 700;
+  color: var(--c-text);
+  min-width: 6rem;
+}
+
+.cajaHistVal {
+  color: var(--c-text-2);
+}
+
+.totalBar {
+  display: flex;
+  justify-content: space-between;
+  background: var(--c-accent-dim);
+  color: var(--c-text);
+  border-radius: var(--r-md);
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.gastoCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1.1rem;
+}
+
+.gastoConcepto {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--c-text);
+}
+
+.gastoCategoria {
+  font-size: 0.75rem;
+  color: var(--c-text-2);
+  margin-top: 0.2rem;
+}
+
+.gastoRight {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.gastoMonto {
+  font-weight: 700;
+  color: var(--c-red);
+}
+
+.gastoFecha {
+  font-size: 0.8rem;
+  color: var(--c-text-2);
+}
+
+.deleteBtn {
+  color: var(--c-red) !important;
+}
+
+.empty {
+  text-align: center;
+  color: var(--c-text-2);
+  padding: 3rem 0;
+}
+
+.form {}
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+  .cajaGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}

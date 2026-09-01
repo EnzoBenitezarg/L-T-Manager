@@ -1,0 +1,191 @@
+.page {
+  max-width: 1000px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.tabs {
+  display: flex;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-5);
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  padding: 0.35rem;
+  overflow-x: auto;
+}
+
+.tab {
+  flex: 1;
+  min-height: 44px;
+  padding: 0.5rem 0.9rem;
+  border: none;
+  border-radius: var(--r-md);
+  background: transparent;
+  color: var(--c-text-2);
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all var(--t-fast);
+}
+
+.tab:hover {
+  color: var(--c-accent);
+}
+
+.tabActive {
+  background: var(--c-accent);
+  color: #fff;
+}
+.tabActive:hover {
+  color: #fff;
+}
+
+.chips {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-5);
+}
+
+.chip {
+  padding: var(--sp-4);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.chipLabel {
+  font-size: 0.75rem;
+  color: var(--c-text-2);
+  font-weight: 500;
+}
+
+.chipValue {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--c-text);
+}
+
+.chartCard {
+  padding: var(--sp-6);
+}
+
+.chartTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--c-text);
+  margin-bottom: var(--sp-5);
+}
+
+.topCard {
+  padding: var(--sp-6);
+}
+
+.topRow {
+  display: grid;
+  grid-template-columns: 28px 1fr 140px;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-3) 0;
+  border-bottom: 1px solid var(--c-border-2);
+}
+
+.topRow:last-child {
+  border-bottom: none;
+}
+
+.topRank {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--r-full);
+  background: var(--c-accent-dim);
+  color: var(--c-accent-hover);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.topInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.topNombre {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--c-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.topTrack {
+  height: 8px;
+  background: var(--c-bg);
+  border-radius: var(--r-full);
+  overflow: hidden;
+}
+
+.topBar {
+  height: 100%;
+  background: var(--c-accent);
+  border-radius: var(--r-full);
+  min-width: 2px;
+  transition: width var(--t-normal);
+}
+
+.topDatos {
+  text-align: right;
+}
+
+.topTotal {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--c-text);
+}
+
+.topCant {
+  font-size: 0.75rem;
+  color: var(--c-text-2);
+}
+
+.empty {
+  text-align: center;
+  color: var(--c-text-2);
+  padding: 3rem 0;
+}
+
+@media (max-width: 768px) {
+  .chips {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .topRow {
+    grid-template-columns: 24px 1fr 110px;
+    gap: var(--sp-3);
+  }
+  .tab {
+    font-size: 0.8rem;
+    padding: 0.45rem 0.6rem;
+  }
+}
+.comisiones { display: flex; flex-direction: column; gap: var(--sp-3); }
+.comisionCard { display: flex; gap: var(--sp-3); padding: var(--sp-4); }
+.comisionDot { width: 14px; height: 14px; border-radius: 999px; flex-shrink: 0; margin-top: 0.25rem; }
+.comisionInfo { flex: 1; min-width: 0; }
+.comisionNombre { font-weight: 700; font-size: 1rem; }
+.comisionMeta { font-size: 0.8rem; color: var(--c-text-2); margin-top: 0.1rem; }
+.comisionTrack { height: 8px; border-radius: 999px; background: var(--c-border); margin-top: 0.6rem; overflow: hidden; }
+.comisionBar { height: 100%; background: var(--c-accent); border-radius: 999px; transition: width var(--t-normal); }
+.comisionDetalle { display: flex; gap: var(--sp-4); margin-top: 0.5rem; font-size: 0.85rem; font-weight: 600; color: var(--c-text); flex-wrap: wrap; }

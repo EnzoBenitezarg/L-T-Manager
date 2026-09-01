@@ -1,0 +1,589 @@
+.page {
+  max-width: 900px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+}
+
+.title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: -0.03em;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  margin-top: 0.25rem;
+}
+
+.searchBar {
+  margin-bottom: 1.5rem;
+}
+
+.searchInput {
+  margin-bottom: 0 !important;
+}
+
+.searchInput input {
+  width: 100%;
+  max-width: 400px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.clienteCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.25rem;
+}
+
+.clienteAvatar {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-primary), #8b5cf6);
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.clienteTop {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.clienteInfo {
+  flex: 1;
+}
+
+.tagRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.4rem;
+}
+
+.tag {
+  display: inline-block;
+  background: var(--c-accent-dim);
+  color: var(--c-accent);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--r-full);
+}
+
+/* Ficha del cliente */
+.fichaLoading {
+  text-align: center;
+  color: var(--c-text-2);
+  padding: 2rem 0;
+}
+
+.fichaHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.fichaName {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--c-text);
+}
+
+.fichaContact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.fichaContactItem {
+  font-size: 0.88rem;
+  color: var(--c-text-2);
+  text-decoration: none;
+}
+
+.waBtn {
+  display: inline-block;
+  background: #25D366;
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.35rem 0.9rem;
+  border-radius: var(--r-full);
+  text-decoration: none;
+}
+
+.fichaStats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.fichaStat {
+  background: var(--c-bg);
+  border-radius: var(--r-md);
+  padding: 0.9rem;
+  text-align: center;
+}
+
+.fichaStatValue {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--c-text);
+}
+
+.fichaStatLabel {
+  font-size: 0.75rem;
+  color: var(--c-text-2);
+  margin-top: 0.2rem;
+}
+
+.fichaNotas {
+  background: var(--c-accent-dim);
+  border-radius: var(--r-md);
+  padding: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.fichaNotasTitle {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--c-accent);
+  margin-bottom: 0.25rem;
+}
+
+.fichaNotasBody {
+  font-size: 0.9rem;
+  color: var(--c-text);
+}
+
+.fichaSection {
+  margin-top: 0.5rem;
+}
+
+.fichaSectionTitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--c-text);
+  margin-bottom: 0.75rem;
+}
+
+.fichaEmpty {
+  color: var(--c-text-2);
+  font-size: 0.9rem;
+  padding: 1rem 0;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.timelineItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: var(--c-bg);
+  border-radius: var(--r-md);
+  padding: 0.7rem 0.9rem;
+}
+
+.timelineDate {
+  font-size: 0.78rem;
+  color: var(--c-accent);
+  font-weight: 600;
+  min-width: 90px;
+}
+
+.timelineTime {
+  font-size: 0.75rem;
+  color: var(--c-text-2);
+  font-weight: 400;
+}
+
+.timelineContent {
+  flex: 1;
+}
+
+.timelineServicio {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--c-text);
+}
+
+.timelineMeta {
+  font-size: 0.78rem;
+  color: var(--c-text-2);
+  margin-top: 0.15rem;
+}
+
+.timelineWa {
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.clienteName {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.clienteDetail {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  display: block;
+  margin-top: 0.25rem;
+  text-decoration: none;
+}
+
+.clienteDetail:hover {
+  color: var(--color-primary);
+}
+
+.clienteTurnos {
+  font-size: 0.8rem;
+  color: var(--color-primary);
+  font-weight: 500;
+  margin-top: 0.5rem;
+}
+
+.clienteActions {
+  display: flex;
+  gap: 0.5rem;
+  border-top: 1px solid var(--color-border);
+  padding-top: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.deleteBtn {
+  color: var(--color-error) !important;
+}
+
+.deleteBtn:hover {
+  background-color: rgba(239, 68, 68, 0.1) !important;
+}
+
+.empty {
+  text-align: center;
+  color: var(--color-text-muted);
+  padding: 4rem 0;
+  font-size: 1rem;
+}
+
+/* Modal */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: fadeIn 0.15s ease;
+}
+
+.modal {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 420px;
+  padding: 1.5rem;
+  animation: slideUp 0.2s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.modalTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.modalClose {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--color-text-muted);
+  padding: 0.25rem;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.modalClose:hover {
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.form {}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.headerActions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Import */
+.importHint {
+  font-size: 0.88rem;
+  color: var(--c-text-2);
+  margin-bottom: 0.5rem;
+}
+
+.importExample {
+  background: var(--c-bg);
+  border: 1px dashed var(--c-border);
+  border-radius: var(--r-md);
+  padding: 0.75rem 1rem;
+  font-size: 0.82rem;
+  color: var(--c-text-2);
+  margin-bottom: 1rem;
+  white-space: pre-wrap;
+}
+
+.importTextarea {
+  width: 100%;
+  min-height: 150px;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  padding: 0.8rem 1rem;
+  font-size: 0.9rem;
+  color: var(--c-text);
+  resize: vertical;
+  background: var(--c-surface);
+}
+
+.importTextarea:focus {
+  outline: none;
+  border-color: var(--c-accent);
+  box-shadow: 0 0 0 3px var(--c-accent-dim);
+}
+
+.importSummary {
+  font-weight: 600;
+  color: var(--c-text);
+  margin-bottom: 1rem;
+}
+
+.importBlock {
+  margin-bottom: 0.75rem;
+}
+
+.importBlockTitle {
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+  color: var(--c-text);
+}
+
+.importItem {
+  font-size: 0.85rem;
+  color: var(--c-text-2);
+  padding: 0.15rem 0;
+}
+
+/* ── Alta rápida ─────────────────────────────────── */
+.quickToggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.quickToggleLabel {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--c-text-2);
+}
+
+.quickToggleBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.75rem;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-full);
+  background: var(--c-surface);
+  color: var(--c-text-2);
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--t-fast);
+}
+
+.quickToggleOn {
+  background: var(--c-accent-dim);
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+}
+
+.quickBar {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.quickNombre {
+  flex: 1;
+}
+
+.quickDni {
+  flex: 0 0 7.5rem;
+}
+
+.quickTel {
+  flex: 1;
+}
+
+.quickMsg {
+  font-size: 0.85rem;
+  margin-bottom: 0.75rem;
+  color: var(--c-green);
+}
+
+/* ── Membresía (gimnasio) ────────────────────────── */
+.memBadge {
+  display: inline-block;
+  margin-top: 0.3rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--r-full);
+}
+
+.memAlDia {
+  background: var(--c-green-dim);
+  color: var(--c-green);
+}
+
+.memPorVencer {
+  background: var(--c-yellow-dim);
+  color: var(--c-yellow);
+}
+
+.memVencido {
+  background: var(--c-red-dim);
+  color: var(--c-red);
+}
+
+.clienteMem {
+  font-size: 0.78rem;
+  color: var(--c-text-2);
+  margin-top: 0.2rem;
+}
+
+.memCard {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: var(--r-md);
+  margin-top: 0.75rem;
+}
+
+.memIcon {
+  font-size: 1.3rem;
+}
+
+.memInfo {
+  flex: 1;
+}
+
+.memTitulo {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--c-text);
+}
+
+.memDetalle {
+  font-size: 0.8rem;
+  color: var(--c-text-2);
+}
+
+/* ── Formulario de cuota ─────────────────────────── */
+.cuotaHint {
+  font-size: 0.8rem;
+  color: var(--c-text-2);
+  margin: 0.5rem 0 0;
+}
+
+.select {
+  width: 100%;
+  padding: 0.5625rem 0.75rem;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  font-size: 0.9375rem;
+  color: var(--c-text);
+  background: var(--c-surface);
+  outline: none;
+  font-family: var(--font);
+}
+.select:focus {
+  border-color: var(--c-accent);
+}
+
+.label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  color: var(--c-text-2);
+}
+
+.formGroup {
+  margin-bottom: 1rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}

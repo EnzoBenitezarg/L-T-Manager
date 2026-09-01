@@ -1,0 +1,201 @@
+.page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--sp-8) var(--sp-4);
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--sp-7);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.logoMark {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-md);
+  background: var(--c-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--c-text);
+  margin: 0;
+}
+
+.logout {
+  background: none;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  padding: var(--sp-2) var(--sp-4);
+  color: var(--c-muted);
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+.logout:hover { color: var(--c-text); }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--sp-4);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-6) var(--sp-4);
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  cursor: pointer;
+  text-align: center;
+  transition: all var(--t-fast);
+  font-family: inherit;
+}
+.card:hover {
+  border-color: var(--c-accent);
+  box-shadow: var(--sh-md);
+  transform: translateY(-2px);
+}
+
+.newCard {
+  border-style: dashed;
+  background: transparent;
+  color: var(--c-muted);
+}
+
+.cardEmoji {
+  font-size: 2rem;
+}
+
+.cardNombre {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--c-text);
+}
+
+.cardRubro {
+  font-size: 0.8rem;
+  color: var(--c-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.rolBadge {
+  background: var(--c-accent-dim);
+  color: var(--c-accent-hover);
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 0.05rem 0.45rem;
+  border-radius: 999px;
+}
+
+.entrar {
+  font-size: 0.85rem;
+  color: var(--c-accent);
+  font-weight: 600;
+  margin-top: var(--sp-2);
+}
+
+.form {
+  margin-top: var(--sp-7);
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  padding: var(--sp-7);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.formTitle {
+  font-size: 1.1rem;
+  color: var(--c-text);
+  margin: 0;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--c-text);
+}
+
+.input {
+  padding: 0.65rem 0.8rem;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  background: var(--c-bg);
+  color: var(--c-text);
+  font-size: 0.95rem;
+}
+.input:focus {
+  outline: none;
+  border-color: var(--c-accent);
+}
+
+.rubros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+.rubroBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  padding: var(--sp-2) var(--sp-3);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  background: var(--c-bg);
+  color: var(--c-text);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.rubroBtnActive {
+  border-color: var(--c-accent);
+  background: rgba(201,123,47,0.1);
+  color: var(--c-accent);
+  font-weight: 600;
+}
+
+.button {
+  padding: 0.75rem;
+  border: none;
+  border-radius: var(--r-md);
+  background: var(--c-accent);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.button:hover { opacity: 0.9; }
+.button:disabled { opacity: 0.6; }
+
+.error {
+  padding: var(--sp-3);
+  border-radius: var(--r-md);
+  background: rgba(220,38,38,0.1);
+  color: #dc2626;
+  font-size: 0.85rem;
+}

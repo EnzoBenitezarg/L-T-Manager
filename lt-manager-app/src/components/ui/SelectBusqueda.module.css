@@ -1,0 +1,141 @@
+.wrapper {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  color: var(--c-text);
+}
+
+.trigger {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  font-size: 1rem;
+  color: var(--c-text-2);
+  background: var(--c-surface);
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  transition: all var(--t-fast);
+}
+
+.trigger:hover {
+  border-color: var(--c-accent);
+}
+
+.triggerOpen {
+  border-color: var(--c-accent);
+  box-shadow: 0 0 0 2px rgba(201, 123, 47, 0.2);
+}
+
+.chevron {
+  font-size: 0.6rem;
+  color: var(--c-text-3);
+  flex-shrink: 0;
+}
+
+.ph {
+  color: var(--c-text-3);
+}
+
+.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.panel {
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  box-shadow: var(--sh-lg);
+  overflow: hidden;
+  animation: fadeIn 0.1s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.input {
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border: none;
+  border-bottom: 1px solid var(--c-border);
+  font-size: 0.9rem;
+  color: var(--c-text);
+  background: var(--c-surface-2);
+  outline: none;
+}
+
+.todos {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--c-accent);
+  background: var(--c-accent-dim);
+  border-bottom: 1px solid var(--c-border);
+  transition: background var(--t-fast);
+}
+
+.todos:hover {
+  background: var(--c-accent);
+  color: white;
+}
+
+.list {
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+  text-align: left;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.9rem;
+  color: var(--c-text);
+  background: var(--c-surface);
+  border-bottom: 1px solid var(--c-border-2);
+}
+
+.item:hover,
+.itemActive {
+  background: var(--c-accent-dim);
+}
+
+.itemLabel {
+  font-weight: 500;
+}
+
+.itemSec {
+  font-size: 0.78rem;
+  color: var(--c-text-2);
+  flex-shrink: 0;
+}
+
+.vacio {
+  padding: 0.75rem;
+  text-align: center;
+  color: var(--c-text-3);
+  font-size: 0.85rem;
+}
