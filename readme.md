@@ -34,18 +34,6 @@ No intenta reemplazar WhatsApp: **sigue siendo el canal con el cliente**, L&T Ma
 
 ---
 
-## 🖼️ Capturas
-
-> ℹ️ _Agregá capturas reales en `docs/screenshots/` y reemplazá estos vínculos para mostrar la app en acción._
-
-```html
-<!--
-<a href="docs/screenshots/dashboard.png">
-  <img src="docs/screenshots/dashboard.png" width="700" alt="Dashboard de L&T Manager con métricas y próximos turnos" />
-</a>
--->
-```
-
 | Turnos · Agenda | Dashboard | Configuración |
 | :---: | :---: | :---: |
 | `docs/screenshots/agenda.png` | `docs/screenshots/dashboard.png` | `docs/screenshots/config.png` |
