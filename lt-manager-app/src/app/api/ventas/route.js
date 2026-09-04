@@ -29,7 +29,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Faltan productos' }, { status: 400 });
     }
 
-    // Descontar stock en transacción
+    // Descontar stock y validar integridad del inventario y precios (server-side)
     const resultado = await prisma.$transaction(async (tx) => {
       const itemsResueltos = [];
       for (const it of items) {
@@ -37,15 +37,24 @@ export async function POST(request) {
           where: { id: Number(it.productoId), negocioId: negocio.id },
         });
         if (!producto) throw new Error('Producto no encontrado');
+
+        const cantidad = Math.floor(Number(it.cantidad));
+        if (!Number.isFinite(cantidad) || cantidad < 1) {
+          throw new Error(`Cantidad inválida para ${producto.nombre}`);
+        }
+        if (cantidad > producto.stock) {
+          throw new Error(`Stock insuficiente para ${producto.nombre} (disponible: ${producto.stock})`);
+        }
+
         await tx.producto.update({
           where: { id: producto.id },
-          data: { stock: producto.stock - Number(it.cantidad) },
+          data: { stock: { decrement: cantidad } },
         });
         itemsResueltos.push({
           productoId: producto.id,
           nombre: producto.nombre,
-          cantidad: Number(it.cantidad),
-          precio: Number(it.precio) || producto.precio,
+          cantidad,
+          precio: producto.precio,
         });
       }
       return tx.venta.create({
@@ -60,6 +69,15 @@ export async function POST(request) {
 
     return NextResponse.json(resultado, { status: 201 });
   } catch (error) {
+    if (error?.message === 'Producto no encontrado') {
+      return NextResponse.json({ error: 'Producto no encontrado' }, { status: 400 });
+    }
+    if (error?.message?.startsWith('Stock insuficiente para')) {
+      return NextResponse.json({ error: error.message }, { status: 409 });
+    }
+    if (error?.message?.startsWith('Cantidad inválida para')) {
+      return NextResponse.json({ error: error.message }, { status: 400 });
+    }
     return NextResponse.json({ error: 'Error al registrar venta' }, { status: 500 });
   }
 }

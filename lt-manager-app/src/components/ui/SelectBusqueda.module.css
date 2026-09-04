@@ -33,7 +33,7 @@
 
 .triggerOpen {
   border-color: var(--c-accent);
-  box-shadow: 0 0 0 2px rgba(201, 123, 47, 0.2);
+  box-shadow: 0 0 0 2px var(--c-accent-soft-2);
 }
 
 .chevron {
@@ -138,4 +138,14 @@
   text-align: center;
   color: var(--c-text-3);
   font-size: 0.85rem;
+}
+
+/* Touch-friendly en móvil */
+@media (max-width: 600px) {
+  .trigger,
+  .todos,
+  .item {
+    min-height: 44px;
+    padding: 0.6rem 0.75rem;
+  }
 }

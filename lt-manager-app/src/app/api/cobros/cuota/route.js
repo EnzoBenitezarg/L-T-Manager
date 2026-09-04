@@ -26,7 +26,8 @@ export async function POST(request) {
     });
     if (!servicio) return NextResponse.json({ error: 'Servicio no encontrado' }, { status: 404 });
 
-    const precio = monto != null && monto !== '' ? Number(monto) : Number(servicio.precio);
+    const montoNum = monto != null && monto !== '' ? Number(monto) : Number(servicio.precio);
+    const precio = Number.isFinite(montoNum) && montoNum >= 0 ? montoNum : Number(servicio.precio);
     const pagoMetodo = metodo || 'EFECTIVO';
 
     const resultado = await prisma.$transaction(async (tx) => {

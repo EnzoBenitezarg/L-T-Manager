@@ -7,7 +7,6 @@ import Card from '@/components/ui/Card';
 import Input from '@/components/ui/Input';
 import Modal from '@/components/ui/Modal';
 import SelectBusqueda from '@/components/ui/SelectBusqueda';
-import AgendaTimeline from '@/components/agenda/AgendaTimeline';
 import { aDatetimeLocal } from '@/lib/fecha';
 import styles from './turnos.module.css';
 
@@ -429,6 +428,8 @@ export default function TurnosPage() {
   const [showEspera, setShowEspera] = useState(false);
   const [view, setView] = useState('dia');
   const [selectedDate, setSelectedDate] = useState(toDateString(new Date()));
+  const [selectedMonth, setSelectedMonth] = useState(() => toDateString(new Date()).slice(0, 7));
+  const [turnosMes, setTurnosMes] = useState([]);
   const [sugeridoEspera, setSugeridoEspera] = useState(null);
   const [cobroTurno, setCobroTurno] = useState(null);
   const [cobroMonto, setCobroMonto] = useState('');
@@ -440,26 +441,45 @@ export default function TurnosPage() {
 
   const fetchTurnos = useCallback(async (fecha) => {
     setLoading(true);
-    const res = await fetch(`/api/turnos?fecha=${fecha}`);
-    setTurnos(await res.json());
-    setLoading(false);
+    try {
+      const res = await fetch(`/api/turnos?fecha=${fecha}`);
+      setTurnos(await res.json());
+    } catch {
+      setTurnos([]);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   const fetchBloqueos = useCallback(async () => {
-    const res = await fetch('/api/bloqueos');
-    setBloqueos(await res.json());
+    try {
+      const res = await fetch('/api/bloqueos');
+      setBloqueos(await res.json());
+    } catch {
+      setBloqueos([]);
+    }
   }, []);
 
   const fetchEspera = useCallback(async () => {
-    const res = await fetch('/api/espera');
-    setEspera(await res.json());
+    try {
+      const res = await fetch('/api/espera');
+      setEspera(await res.json());
+    } catch {
+      setEspera([]);
+    }
   }, []);
 
   const fetchSupport = useCallback(async () => {
-    const [cRes, sRes, mRes] = await Promise.all([fetch('/api/clientes'), fetch('/api/servicios'), fetch('/api/miembros')]);
-    setClientes(await cRes.json());
-    setServicios(await sRes.json());
-    setMiembros(await mRes.json());
+    try {
+      const [cRes, sRes, mRes] = await Promise.all([fetch('/api/clientes'), fetch('/api/servicios'), fetch('/api/miembros')]);
+      setClientes(await cRes.json());
+      setServicios(await sRes.json());
+      setMiembros(await mRes.json());
+    } catch {
+      setClientes([]);
+      setServicios([]);
+      setMiembros([]);
+    }
   }, []);
 
   useEffect(() => { fetchTurnos(selectedDate); }, [fetchTurnos, selectedDate]);
@@ -638,9 +658,22 @@ export default function TurnosPage() {
     setSelectedDate(toDateString(d));
   };
 
+  const navMonth = (delta) => {
+    const [y, m] = selectedMonth.split('-').map(Number);
+    const d = new Date(y, m - 1 + delta, 1);
+    setSelectedMonth(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`);
+  };
+
   const displayDate = new Date(selectedDate + 'T12:00:00').toLocaleDateString('es-AR', {
     weekday: 'long', day: 'numeric', month: 'long',
   });
+
+  const displayMonth = (() => {
+    const [y, m] = selectedMonth.split('-').map(Number);
+    return new Date(y, m - 1, 1).toLocaleDateString('es-AR', { month: 'long', year: 'numeric' });
+  })();
+
+  const esMesActual = selectedMonth === toDateString(new Date()).slice(0, 7);
 
   const isToday = selectedDate === toDateString(new Date());
 
@@ -664,6 +697,17 @@ export default function TurnosPage() {
   }
   const semana = view === 'semana' ? diasSemana : [];
 
+  // Celdas del calendario mensual (mes + celdas vacías de offset)
+  const celdasMes = useMemo(() => {
+    const [y, m] = selectedMonth.split('-').map(Number);
+    const primerDia = new Date(y, m - 1, 1).getDay();
+    const totalDias = new Date(y, m, 0).getDate();
+    const celdas = [];
+    for (let i = 0; i < primerDia; i++) celdas.push(null);
+    for (let d = 1; d <= totalDias; d++) celdas.push(`${selectedMonth}-${String(d).padStart(2, '0')}`);
+    return celdas;
+  }, [selectedMonth]);
+
   useEffect(() => {
     if (view !== 'semana') return;
     Promise.all(semana.map((f) => fetch(`/api/turnos?fecha=${f}`).then((r) => r.json())))
@@ -671,7 +715,19 @@ export default function TurnosPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [view, selectedDate]);
 
+  useEffect(() => {
+    if (view !== 'mes') return;
+    const [y, m] = selectedMonth.split('-').map(Number);
+    const desde = `${selectedMonth}-01`;
+    const ultimoDia = new Date(y, m, 0).getDate();
+    const hasta = `${selectedMonth}-${String(ultimoDia).padStart(2, '0')}`;
+    fetch(`/api/turnos?desde=${desde}&hasta=${hasta}`)
+      .then((r) => r.json())
+      .then(setTurnosMes);
+  }, [view, selectedMonth]);
+
   const turnosDeDia = (fecha) => turnosSemana.filter((t) => toDateString(new Date(t.fecha)) === fecha);
+  const turnosDeMes = (fecha) => turnosMes.filter((t) => toDateString(new Date(t.fecha)) === fecha);
 
   return (
     <div className={styles.page}>
@@ -683,20 +739,58 @@ export default function TurnosPage() {
 
       {/* View toggle + Date Navigator */}
       <div className={styles.toolbar}>
-        <div className={styles.viewToggle}>
-          <button className={`${styles.viewBtn} ${view === 'dia' ? styles.viewActive : ''}`} onClick={() => setView('dia')}>Día</button>
-          <button className={`${styles.viewBtn} ${view === 'semana' ? styles.viewActive : ''}`} onClick={() => setView('semana')}>Semana</button>
-          <button className={`${styles.viewBtn} ${view === 'agenda' ? styles.viewActive : ''}`} onClick={() => setView('agenda')}>Agenda</button>
+        <div className={styles.viewToggle} role="tablist" aria-label="Cambiar vista">
+          <button
+            role="tab"
+            aria-selected={view === 'dia'}
+            className={`${styles.viewBtn} ${view === 'dia' ? styles.viewActive : ''}`}
+            onClick={() => setView('dia')}
+          >
+            <span className={styles.viewIcon}>📅</span>
+            <span>Día</span>
+          </button>
+          <button
+            role="tab"
+            aria-selected={view === 'semana'}
+            className={`${styles.viewBtn} ${view === 'semana' ? styles.viewActive : ''}`}
+            onClick={() => setView('semana')}
+          >
+            <span className={styles.viewIcon}>🗓️</span>
+            <span>Semana</span>
+          </button>
+          <button
+            role="tab"
+            aria-selected={view === 'mes'}
+            className={`${styles.viewBtn} ${view === 'mes' ? styles.viewActive : ''}`}
+            onClick={() => setView('mes')}
+          >
+            <span className={styles.viewIcon}>📆</span>
+            <span>Mes</span>
+          </button>
         </div>
-        <div className={styles.dateNav}>
-          <button className={styles.dateBtn} onClick={() => navDate(view === 'semana' ? -7 : -1)}>‹</button>
-          <div className={styles.dateDisplay}>
-            <span className={styles.dateStr}>{displayDate}</span>
-            {isToday && view === 'dia' && <span className={styles.todayBadge}>Hoy</span>}
+
+        {view !== 'mes' ? (
+          <div className={styles.dateNav}>
+            <button className={styles.dateBtn} onClick={() => navDate(view === 'semana' ? -7 : -1)} aria-label="Anterior">‹</button>
+            <div className={styles.dateDisplay}>
+              <span className={styles.dateStr}>{displayDate}</span>
+              {isToday && view === 'dia' && <span className={styles.todayBadge}>Hoy</span>}
+            </div>
+            <button className={styles.dateBtn} onClick={() => navDate(view === 'semana' ? 7 : 1)} aria-label="Siguiente">›</button>
+            <button className={styles.todayBtn} onClick={() => setSelectedDate(toDateString(new Date()))}>Hoy</button>
           </div>
-          <button className={styles.dateBtn} onClick={() => navDate(view === 'semana' ? 7 : 1)}>›</button>
-          <button className={styles.todayBtn} onClick={() => setSelectedDate(toDateString(new Date()))}>Hoy</button>
-        </div>
+        ) : (
+          <div className={styles.dateNav}>
+            <button className={styles.dateBtn} onClick={() => navMonth(-1)} aria-label="Mes anterior">‹</button>
+            <div className={styles.dateDisplay}>
+              <span className={styles.dateStr}>{displayMonth}</span>
+              {esMesActual && <span className={styles.todayBadge}>Este mes</span>}
+            </div>
+            <button className={styles.dateBtn} onClick={() => navMonth(1)} aria-label="Mes siguiente">›</button>
+            <button className={styles.todayBtn} onClick={() => setSelectedMonth(toDateString(new Date()).slice(0, 7))}>Hoy</button>
+          </div>
+        )}
+
         <Button variant="secondary" size="sm" onClick={() => setShowBloqueo(true)}>🔒 Bloqueo</Button>
       </div>
 
@@ -742,23 +836,31 @@ export default function TurnosPage() {
             );
           })}
         </div>
-      ) : view === 'agenda' ? (
-        <div className={styles.agenda}>
-          {turnos.length === 0 ? (
-            <div className={styles.empty}>
-              No hay turnos agendados para este día.
-              <br />
-              <Button variant="ghost" onClick={() => setShowModal(true)} className={styles.emptyBtn}>
-                + Agendar turno
-              </Button>
-            </div>
-          ) : (
-            <AgendaTimeline
-              turnos={turnos}
-              miembros={miembros}
-              onTurnoClick={(t) => setMoverTurno(t)}
-            />
-          )}
+      ) : view === 'mes' ? (
+        <div className={styles.calendar}>
+          <div className={styles.calendarHead}>
+            {['D', 'L', 'M', 'M', 'J', 'V', 'S'].map((letra, i) => (
+              <div key={i} className={styles.calendarHeadCell}>{letra}</div>
+            ))}
+          </div>
+          <div className={styles.calendarGrid}>
+            {celdasMes.map((fecha, i) => {
+              if (!fecha) return <div key={`v${i}`} className={styles.calendarCellEmpty} />;
+              const dia = new Date(fecha + 'T12:00:00').getDate();
+              const turnosDia = turnosDeMes(fecha);
+              const esHoy = fecha === toDateString(new Date());
+              const bloqueado = bloqueosDelDia(fecha).length > 0;
+              return (
+                <button key={fecha} className={`${styles.calendarCell} ${esHoy ? styles.calendarHoy : ''} ${bloqueado ? styles.calendarBloqueado : ''}`} onClick={() => { setSelectedDate(fecha); setView('dia'); }}>
+                  <span className={styles.calendarNum}>{dia}</span>
+                  <div className={styles.calendarDots}>
+                    {turnosDia.length > 0 && <span className={styles.calendarCount}>{turnosDia.length}</span>}
+                    {bloqueado && <span className={styles.calendarLock}>🔒</span>}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
         </div>
       ) : (
         <div className={styles.dayContent}>
@@ -816,31 +918,31 @@ export default function TurnosPage() {
                       </span>
                       <div className={styles.turnoActions}>
                         {t.estado !== 'COMPLETADO' && t.estado !== 'CANCELADO' && (
-                          <Button variant="ghost" size="sm" className={styles.moveBtn} onClick={() => setMoverTurno(t)} title="Reprogramar turno">✏️</Button>
+                          <Button variant="ghost" size="sm" className={styles.moveBtn} onClick={() => setMoverTurno(t)} title="Reprogramar turno">✏️<span className={styles.btnLabel}>Reagendar</span></Button>
                         )}
                         {t.cliente?.telefono && (
                           <>
                             <a
                               href={`https://wa.me/${t.cliente.telefono.replace(/[^\d]/g, '')}?text=${encodeURIComponent(`Hola ${t.cliente.nombre}, te confirmo tu turno de ${t.servicio?.nombre} para ${new Date(t.fecha).toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' })} a las ${new Date(t.fecha).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })}hs.`)}`}
-                              target="_blank" rel="noopener noreferrer" className={styles.waLink} title="Confirmar por WhatsApp">💬</a>
+                              target="_blank" rel="noopener noreferrer" className={styles.waLink} title="Confirmar por WhatsApp">💬<span className={styles.btnLabel}>Confirmar</span></a>
                             <a
                               href={`https://wa.me/${t.cliente.telefono.replace(/[^\d]/g, '')}?text=${encodeURIComponent(`Hola ${t.cliente.nombre}! Te recuerdo tu turno de ${t.servicio?.nombre} el ${new Date(t.fecha).toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' })} a las ${new Date(t.fecha).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })}hs.`)}`}
-                              target="_blank" rel="noopener noreferrer" className={styles.waLink} title="Recordar por WhatsApp">🔔</a>
+                              target="_blank" rel="noopener noreferrer" className={styles.waLink} title="Recordar por WhatsApp">🔔<span className={styles.btnLabel}>Recordar</span></a>
                           </>
                         )}
                         {t.estado === 'PENDIENTE' && (
-                          <Button variant="ghost" size="sm" onClick={() => handleEstado(t.id, 'COMPLETADO')}>✓</Button>
+                          <Button variant="ghost" size="sm" onClick={() => handleEstado(t.id, 'COMPLETADO')}>✓<span className={styles.btnLabel}>Hecho</span></Button>
                         )}
                         {t.estado === 'PENDIENTE' && (
-                          <Button variant="ghost" size="sm" onClick={() => abrirCobro(t)} className={styles.cobroBtn} title="Completar y cobrar">💰</Button>
+                          <Button variant="ghost" size="sm" onClick={() => abrirCobro(t)} className={styles.cobroBtn} title="Completar y cobrar">💰<span className={styles.btnLabel}>Cobrar</span></Button>
                         )}
                         {t.estado === 'PENDIENTE' && (
-                          <Button variant="ghost" size="sm" onClick={() => marcarDeudaDesdeTurno(t)} className={styles.debeBtn} title="Marcar como debe">⏳</Button>
+                          <Button variant="ghost" size="sm" onClick={() => marcarDeudaDesdeTurno(t)} className={styles.debeBtn} title="Marcar como debe">⏳<span className={styles.btnLabel}>Debe</span></Button>
                         )}
                         {t.estado === 'PENDIENTE' && (
-                          <Button variant="ghost" size="sm" className={styles.cancelBtn} onClick={() => handleEstado(t.id, 'CANCELADO')}>✕</Button>
+                          <Button variant="ghost" size="sm" className={styles.cancelBtn} onClick={() => handleEstado(t.id, 'CANCELADO')}>✕<span className={styles.btnLabel}>Cancelar</span></Button>
                         )}
-                        <Button variant="ghost" size="sm" className={styles.deleteBtn} onClick={() => handleDelete(t.id)}>🗑</Button>
+                        <Button variant="ghost" size="sm" className={styles.deleteBtn} onClick={() => handleDelete(t.id)}>🗑<span className={styles.btnLabel}>Borrar</span></Button>
                       </div>
                     </div>
                   </Card>

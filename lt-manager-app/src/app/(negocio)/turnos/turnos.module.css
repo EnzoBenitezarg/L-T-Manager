@@ -19,13 +19,13 @@
 .title {
   font-size: 1.75rem;
   font-weight: 700;
-  color: var(--color-text);
+  color: var(--c-text);
   letter-spacing: -0.03em;
 }
 
 .subtitle {
   font-size: 0.9rem;
-  color: var(--color-text-muted);
+  color: var(--c-text-2);
   margin-top: 0.25rem;
 }
 
@@ -35,30 +35,30 @@
   align-items: center;
   gap: 0.75rem;
   margin-bottom: 1.5rem;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
   padding: 0.75rem 1rem;
 }
 
 .dateBtn {
   background: none;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-sm);
   width: 2rem;
   height: 2rem;
   cursor: pointer;
   font-size: 1.25rem;
-  color: var(--color-text);
+  color: var(--c-text);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all var(--transition-fast);
+  transition: all var(--t-fast);
   flex-shrink: 0;
 }
 
 .dateBtn:hover {
-  background: var(--color-bg);
+  background: var(--c-bg);
 }
 
 .dateDisplay {
@@ -71,7 +71,7 @@
 .dateStr {
   font-size: 1rem;
   font-weight: 600;
-  color: var(--color-text);
+  color: var(--c-text);
   text-transform: capitalize;
 }
 
@@ -79,25 +79,25 @@
   font-size: 0.7rem;
   font-weight: 600;
   color: white;
-  background: var(--color-primary);
+  background: var(--c-accent);
   padding: 0.15rem 0.5rem;
-  border-radius: var(--radius-full);
+  border-radius: var(--r-full);
 }
 
 .todayBtn {
   background: none;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-sm);
   padding: 0.35rem 0.75rem;
   cursor: pointer;
   font-size: 0.8rem;
-  color: var(--color-text-muted);
-  transition: all var(--transition-fast);
+  color: var(--c-text-2);
+  transition: all var(--t-fast);
 }
 
 .todayBtn:hover {
-  color: var(--color-primary);
-  border-color: var(--color-primary);
+  color: var(--c-accent);
+  border-color: var(--c-accent);
 }
 
 /* Turnos list */
@@ -117,7 +117,7 @@
 .turnoHora {
   font-size: 1.25rem;
   font-weight: 700;
-  color: var(--color-primary);
+  color: var(--c-accent);
   min-width: 3.5rem;
   flex-shrink: 0;
 }
@@ -129,26 +129,26 @@
 .turnoCliente {
   font-size: 1rem;
   font-weight: 600;
-  color: var(--color-text);
+  color: var(--c-text);
 }
 
 .turnoServicio {
   font-size: 0.85rem;
-  color: var(--color-text-muted);
+  color: var(--c-text-2);
   margin-top: 0.125rem;
 }
 
 .turnoTel {
   font-size: 0.8rem;
-  color: var(--color-text-muted);
+  color: var(--c-text-2);
   text-decoration: none;
   margin-top: 0.25rem;
   display: block;
-  transition: color var(--transition-fast);
+  transition: color var(--t-fast);
 }
 
 .turnoTel:hover {
-  color: var(--color-primary);
+  color: var(--c-accent);
 }
 
 .turnoRight {
@@ -164,7 +164,7 @@
   font-weight: 600;
   color: white;
   padding: 0.2rem 0.6rem;
-  border-radius: var(--radius-full);
+  border-radius: var(--r-full);
 }
 
 .turnoActions {
@@ -190,7 +190,7 @@
 }
 
 .cancelBtn {
-  color: var(--color-warning) !important;
+  color: var(--c-yellow) !important;
 }
 
 .debeBtn {
@@ -206,7 +206,7 @@
 }
 
 .deleteBtn {
-  color: var(--color-error) !important;
+  color: var(--c-red) !important;
 }
 
 .deleteBtn:hover {
@@ -325,7 +325,7 @@
 
 .empty {
   text-align: center;
-  color: var(--color-text-muted);
+  color: var(--c-text-2);
   padding: 4rem 0;
   line-height: 2;
 }
@@ -348,9 +348,9 @@
 }
 
 .modal {
-  background: var(--color-surface);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
+  background: var(--c-surface);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-lg);
   width: 100%;
   max-width: 450px;
   padding: 1.5rem;
@@ -379,15 +379,15 @@
   border: none;
   cursor: pointer;
   font-size: 1rem;
-  color: var(--color-text-muted);
+  color: var(--c-text-2);
   padding: 0.25rem;
-  border-radius: var(--radius-sm);
-  transition: all var(--transition-fast);
+  border-radius: var(--r-sm);
+  transition: all var(--t-fast);
 }
 
 .modalClose:hover {
-  background: var(--color-bg);
-  color: var(--color-text);
+  background: var(--c-bg);
+  color: var(--c-text);
 }
 
 .form {}
@@ -401,24 +401,24 @@
   font-size: 0.875rem;
   font-weight: 500;
   margin-bottom: 0.25rem;
-  color: var(--color-text);
+  color: var(--c-text);
 }
 
 .select {
   width: 100%;
   padding: 0.5rem 0.75rem;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
   font-size: 1rem;
-  color: var(--color-text);
-  background-color: var(--color-surface);
+  color: var(--c-text);
+  background-color: var(--c-surface);
   outline: none;
-  transition: all var(--transition-fast);
-  font-family: var(--font-family);
+  transition: all var(--t-fast);
+  font-family: var(--font);
 }
 
 .select:focus {
-  border-color: var(--color-primary);
+  border-color: var(--c-accent);
   box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
 }
 
@@ -444,27 +444,55 @@
   flex-wrap: wrap;
 }
 
+.toolbar > :last-child {
+  margin-left: auto;
+}
+
 .viewToggle {
   display: flex;
   background: var(--c-surface);
   border: 1px solid var(--c-border);
-  border-radius: var(--r-md);
-  padding: 0.2rem;
-  gap: 0.2rem;
+  border-radius: var(--r-lg);
+  padding: 0.25rem;
+  gap: 0.25rem;
 }
 
 .viewBtn {
-  padding: 0.4rem 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 1rem;
   font-size: 0.85rem;
   font-weight: 600;
-  border-radius: var(--r-sm);
+  border-radius: var(--r-md);
   color: var(--c-text-2);
   transition: all var(--t-fast);
+  min-height: 40px;
+}
+
+.viewBtn:hover {
+  color: var(--c-accent);
+  background: var(--c-surface-2);
+}
+
+.viewIcon {
+  font-size: 1rem;
+  line-height: 1;
 }
 
 .viewActive {
   background: var(--c-accent);
   color: white;
+  box-shadow: var(--sh-sm);
+}
+
+.viewActive:hover {
+  background: var(--c-accent-hover);
+  color: white;
+}
+
+.dateNav {
+  flex: 1;
 }
 
 /* Lista de espera bar */
@@ -690,23 +718,200 @@
   color: var(--c-text-2);
 }
 
+/* ─── Vista Mes (calendario mensual) ────────────── */
+.calendar {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border-2);
+  border-radius: var(--r-xl);
+  box-shadow: var(--sh-xs);
+  padding: var(--sp-4);
+}
+
+.calendarHead {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-2);
+}
+
+.calendarHeadCell {
+  text-align: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--c-text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--sp-2);
+  grid-auto-rows: 1fr;
+}
+
+.calendarCellEmpty {
+  min-height: 64px;
+}
+
+.calendarCell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--sp-1);
+  padding: var(--sp-2) 0;
+  min-height: 64px;
+  border: 1px solid var(--c-border-2);
+  border-radius: var(--r-md);
+  background: var(--c-surface);
+  transition: all var(--t-fast);
+}
+
+.calendarCell:hover {
+  border-color: var(--c-accent);
+  background: var(--c-accent-dim);
+}
+
+.calendarHoy {
+  border-color: var(--c-accent);
+  background: var(--c-accent-dim);
+  box-shadow: inset 0 0 0 1px var(--c-accent);
+}
+
+.calendarBloqueado {
+  background: var(--c-red-dim);
+  border-color: var(--c-red);
+}
+
+.calendarNum {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--c-text);
+}
+
+.calendarDots {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-height: 1.1rem;
+}
+
+.calendarCount {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--c-accent);
+  background: var(--c-accent-soft);
+  border-radius: var(--r-full);
+  padding: 0.1rem 0.45rem;
+  min-width: 1.4rem;
+  text-align: center;
+}
+
+.calendarLock {
+  font-size: 0.7rem;
+}
+
+@media (max-width: 640px) {
+  .calendar {
+    padding: var(--sp-3);
+  }
+  .calendarCell, .calendarCellEmpty {
+    min-height: 52px;
+  }
+  .calendarNum { font-size: 0.82rem; }
+  .calendarCount { font-size: 0.62rem; padding: 0.05rem 0.3rem; min-width: 1.2rem; }
+}
+
 @media (max-width: 768px) {
   .semanaGrid {
     grid-template-columns: 1fr;
   }
 }
 
+/* Labels de acciones se muestran solo en mobile */
+.btnLabel { display: none; }
+
 @media (max-width: 600px) {
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  .toolbar > :last-child {
+    margin-left: 0;
+  }
+
+  .viewToggle {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .viewBtn {
+    justify-content: center;
+    padding: 0.55rem 0.5rem;
+    font-size: 0.85rem;
+    min-height: 44px;
+  }
+
+  .dateNav {
+    order: 2;
+    width: 100%;
+  }
+
   .turnoCard {
     flex-wrap: wrap;
+    gap: 0.6rem;
+    padding: 0.875rem 1rem;
+  }
+
+  .turnoHora { min-width: 3rem; }
+
+  .turnoServicio { font-size: 0.875rem; }
+  .turnoTel { font-size: 0.875rem; }
+
+  .estadoBadge {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.7rem;
   }
 
   .turnoRight {
     width: 100%;
     flex-direction: row;
     align-items: center;
-    border-top: 1px solid var(--color-border);
+    justify-content: space-between;
+    border-top: 1px solid var(--c-border);
     padding-top: 0.75rem;
     margin-top: 0.25rem;
   }
+
+  .turnoActions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  .turnoActions button,
+  .turnoActions a {
+    width: 100%;
+    min-height: 44px;
+    height: auto;
+    border: 1px solid var(--c-border);
+    background: var(--c-bg);
+    border-radius: var(--r-sm);
+    font-size: 0.85rem;
+    padding: 0.4rem 0.5rem;
+  }
+
+  .btnLabel {
+    display: inline;
+    font-weight: 500;
+  }
+
+  .row { grid-template-columns: 1fr; }
 }

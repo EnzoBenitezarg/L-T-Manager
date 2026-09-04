@@ -1,4 +1,4 @@
-/* ─── Componente Button ──────────────────────────────────────── */
+/* â”€â”€â”€ Componente Button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .button {
   display: inline-flex;
   align-items: center;
@@ -9,8 +9,8 @@
   letter-spacing: 0.01em;
   border-radius: var(--r-md);
   transition: all var(--t-fast);
-  white-space: nowrap;
-  line-height: 1;
+  text-align: center;
+  line-height: 1.1;
 }
 
 .button:disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
@@ -20,9 +20,9 @@
   background: var(--c-accent);
   color: #fff;
   padding: 0.5rem 1rem;
-  box-shadow: 0 1px 3px rgba(201,123,47,0.25);
+  box-shadow: 0 1px 3px var(--c-accent-glow);
 }
-.primary:hover { background: var(--c-accent-hover); box-shadow: 0 2px 8px rgba(201,123,47,0.3); transform: translateY(-1px); }
+.primary:hover { background: var(--c-accent-hover); box-shadow: 0 2px 8px var(--c-accent-glow); transform: translateY(-1px); }
 .primary:active { transform: translateY(0); }
 
 /* Secondary */

@@ -32,7 +32,7 @@
   padding: 0.4rem 0.5rem;
   border: 1px solid var(--c-border);
   border-radius: var(--r-md);
-  background: #fff;
+  background: var(--c-surface);
   color: var(--c-text);
   font-size: 0.85rem;
 }
@@ -51,14 +51,14 @@
 
 .actions { display: flex; align-items: center; gap: 0.4rem; margin-left: auto; }
 
-.selectColor { padding: 0.35rem; border: 1px solid var(--c-border); border-radius: var(--r-md); background: #fff; font-size: 0.85rem; }
+.selectColor { padding: 0.35rem; border: 1px solid var(--c-border); border-radius: var(--r-md); background: var(--c-surface); font-size: 0.85rem; }
 
 .toggle, .delete {
   width: 34px;
   height: 34px;
   border-radius: var(--r-md);
   border: 1px solid var(--c-border);
-  background: #fff;
+  background: var(--c-surface);
   font-size: 0.95rem;
   cursor: pointer;
   display: flex;
@@ -88,7 +88,7 @@
   padding: 0.65rem 0.7rem;
   border: 1px solid var(--c-border);
   border-radius: var(--r-md);
-  background: #fff;
+  background: var(--c-surface);
   color: var(--c-text);
   font-size: 0.9rem;
 }
@@ -99,3 +99,9 @@
 .colorOn { border-color: var(--c-text); }
 
 .formActions { display: flex; gap: var(--sp-3); }
+
+@media (max-width: 600px) {
+  .actions { margin-left: 0; width: 100%; flex-wrap: wrap; }
+  .toggle, .delete { width: 44px; height: 44px; }
+  .colorBtn { width: 40px; height: 40px; }
+}

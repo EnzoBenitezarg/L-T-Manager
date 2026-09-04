@@ -22,19 +22,25 @@ export async function GET(request) {
   const negocio = await getNegocioActivo();
   if (!negocio) return NextResponse.json({ error: 'No hay negocio activo' }, { status: 401 });
 
-  const { searchParams } = new URL(request.url);
-  const seccion = searchParams.get('seccion') || 'todo';
+  try {
+    const { searchParams } = new URL(request.url);
+    const seccion = searchParams.get('seccion') || 'todo';
 
-  const [clientes, servicios, turnos, pagos, productos, combos, gastos, ventas] = await Promise.all([
-    prisma.cliente.findMany({ where: { negocioId: negocio.id }, orderBy: { creadoEn: 'asc' } }),
-    prisma.servicio.findMany({ where: { negocioId: negocio.id } }),
-    prisma.turno.findMany({ where: { negocioId: negocio.id }, include: { cliente: true, servicio: true } }),
-    prisma.pago.findMany({ where: { negocioId: negocio.id }, include: { turno: { include: { cliente: true } } } }),
-    prisma.producto.findMany({ where: { negocioId: negocio.id } }),
-    prisma.combo.findMany({ where: { negocioId: negocio.id }, include: { servicios: true } }),
-    prisma.gasto.findMany({ where: { negocioId: negocio.id } }),
-    prisma.venta.findMany({ where: { negocioId: negocio.id }, include: { items: true } }),
-  ]);
+    const SECCIONES = new Set(['todo', 'clientes', 'servicios', 'turnos', 'pagos', 'productos', 'combos', 'gastos', 'ventas']);
+    if (!SECCIONES.has(seccion)) {
+      return NextResponse.json({ error: 'Sección inválida' }, { status: 400 });
+    }
+
+    const [clientes, servicios, turnos, pagos, productos, combos, gastos, ventas] = await Promise.all([
+      prisma.cliente.findMany({ where: { negocioId: negocio.id }, orderBy: { creadoEn: 'asc' } }),
+      prisma.servicio.findMany({ where: { negocioId: negocio.id } }),
+      prisma.turno.findMany({ where: { negocioId: negocio.id }, include: { cliente: true, servicio: true } }),
+      prisma.pago.findMany({ where: { negocioId: negocio.id }, include: { turno: { include: { cliente: true } } } }),
+      prisma.producto.findMany({ where: { negocioId: negocio.id } }),
+      prisma.combo.findMany({ where: { negocioId: negocio.id }, include: { servicios: true } }),
+      prisma.gasto.findMany({ where: { negocioId: negocio.id } }),
+      prisma.venta.findMany({ where: { negocioId: negocio.id }, include: { items: true } }),
+    ]);
 
   const partes = [];
 
@@ -125,4 +131,7 @@ export async function GET(request) {
       'Content-Disposition': `attachment; filename="${filename}"`,
     },
   });
+  } catch (error) {
+    return NextResponse.json({ error: 'Error al exportar' }, { status: 500 });
+  }
 }

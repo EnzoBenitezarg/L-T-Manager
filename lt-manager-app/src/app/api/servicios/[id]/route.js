@@ -10,13 +10,21 @@ export async function PUT(request, { params }) {
     const body = await request.json();
     const { nombre, descripcion, precio, duracion } = body;
 
+    if (nombre == null || String(nombre).trim() === '') {
+      return NextResponse.json({ error: 'El nombre es requerido' }, { status: 400 });
+    }
+    const precioNum = Number(precio);
+    if (!Number.isFinite(precioNum) || precioNum < 0) {
+      return NextResponse.json({ error: 'El precio es inválido' }, { status: 400 });
+    }
+    const durNum = Number(duracion);
     const servicio = await prisma.servicio.updateMany({
       where: { id: Number(id), negocioId: negocio.id },
       data: {
-        nombre: nombre.trim(),
-        descripcion: descripcion?.trim() || null,
-        precio: Number(precio),
-        duracion: Number(duracion) || 30,
+        nombre: String(nombre).trim(),
+        descripcion: descripcion != null ? String(descripcion).trim() || null : undefined,
+        precio: precioNum,
+        duracion: Number.isFinite(durNum) && durNum > 0 ? Math.floor(durNum) : 30,
       },
     });
     if (servicio.count === 0) return NextResponse.json({ error: 'Servicio no encontrado' }, { status: 404 });

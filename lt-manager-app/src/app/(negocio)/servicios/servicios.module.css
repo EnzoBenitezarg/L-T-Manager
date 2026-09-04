@@ -19,13 +19,13 @@
 .title {
   font-size: 1.75rem;
   font-weight: 700;
-  color: var(--color-text);
+  color: var(--c-text);
   letter-spacing: -0.03em;
 }
 
 .subtitle {
   font-size: 0.9rem;
-  color: var(--color-text-muted);
+  color: var(--c-text-2);
   margin-top: 0.25rem;
 }
 
@@ -58,7 +58,7 @@
 
 .servicioDesc {
   font-size: 0.85rem;
-  color: var(--color-text-muted);
+  color: var(--c-text-2);
   margin-top: 0.125rem;
 }
 
@@ -72,13 +72,13 @@
   font-size: 0.8rem;
   font-weight: 600;
   color: white;
-  background: var(--color-primary);
+  background: var(--c-accent);
   padding: 0.2rem 0.6rem;
-  border-radius: var(--radius-full);
+  border-radius: var(--r-full);
 }
 
 .badgeSecondary {
-  background: var(--color-text-muted);
+  background: var(--c-text-2);
 }
 
 .servicioActions {
@@ -87,7 +87,7 @@
 }
 
 .deleteBtn {
-  color: var(--color-error) !important;
+  color: var(--c-red) !important;
 }
 
 .deleteBtn:hover {
@@ -96,7 +96,7 @@
 
 .empty {
   text-align: center;
-  color: var(--color-text-muted);
+  color: var(--c-text-2);
   padding: 4rem 0;
 }
 
@@ -114,9 +114,9 @@
 }
 
 .modal {
-  background: var(--color-surface);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
+  background: var(--c-surface);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-lg);
   width: 100%;
   max-width: 450px;
   padding: 1.5rem;
@@ -145,15 +145,15 @@
   border: none;
   cursor: pointer;
   font-size: 1rem;
-  color: var(--color-text-muted);
+  color: var(--c-text-2);
   padding: 0.25rem;
-  border-radius: var(--radius-sm);
-  transition: all var(--transition-fast);
+  border-radius: var(--r-sm);
+  transition: all var(--t-fast);
 }
 
 .modalClose:hover {
-  background: var(--color-bg);
-  color: var(--color-text);
+  background: var(--c-bg);
+  color: var(--c-text);
 }
 
 .row {
@@ -171,16 +171,16 @@
 .sugerencia {
   font-size: 0.8rem;
   padding: 0.3rem 0.75rem;
-  border: 1px dashed var(--color-border, var(--c-border));
-  border-radius: var(--radius-full, var(--r-full));
+  border: 1px dashed var(--c-border);
+  border-radius: var(--r-full);
   background: transparent;
-  color: var(--color-text-muted, var(--c-text-2));
+  color: var(--c-text-2);
   cursor: pointer;
   transition: all 0.12s ease;
 }
 .sugerencia:hover {
-  border-color: var(--color-primary, var(--c-accent));
-  color: var(--color-primary, var(--c-accent));
+  border-color: var(--c-accent);
+  color: var(--c-accent);
 }
 
 .form {}
@@ -190,4 +190,8 @@
   justify-content: flex-end;
   gap: 0.75rem;
   margin-top: 0.5rem;
+}
+
+@media (max-width: 600px) {
+  .row { grid-template-columns: 1fr; }
 }

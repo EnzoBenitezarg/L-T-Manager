@@ -117,19 +117,54 @@ export default function VentasPage() {
   const handleVentaProducto = async (metodo) => {
     setSaving(true);
     try {
-      await fetch('/api/ventas', {
+      const res = await fetch('/api/ventas', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ items: carrito, metodo }),
       });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data?.error || 'No se pudo registrar la venta');
       showMensaje(`✅ Venta registrada por $${totalVenta.toLocaleString('es-AR')}`);
       await fetchData();
       setCarrito([]);
       setShowModal(false);
-    } catch {
-      showMensaje('❌ No se pudo registrar la venta');
+    } catch (e) {
+      showMensaje(`❌ ${e?.message || 'No se pudo registrar la venta'}`);
     } finally {
       setSaving(false);
+    }
+  };
+
+  // ── VENTA EXPRESS de producto: 1 click, auto-cobrado ──
+  const [exprProductoId, setExprProductoId] = useState('');
+  const [exprCantidad, setExprCantidad] = useState(1);
+  const [exprSaving, setExprSaving] = useState(false);
+
+  const exprProducto = productos.find((p) => p.id === Number(exprProductoId));
+  const exprTotal = exprProducto ? exprProducto.precio * exprCantidad : 0;
+
+  const venderExpress = async (metodo = 'EFECTIVO') => {
+    if (!exprProducto) return;
+    setExprSaving(true);
+    try {
+      const res = await fetch('/api/ventas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          items: [{ productoId: exprProducto.id, cantidad: exprCantidad }],
+          metodo,
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data?.error || 'No se pudo registrar');
+      showMensaje(`✅ Vendido ${exprCantidad}× ${exprProducto.nombre} por $${exprTotal.toLocaleString('es-AR')} — cobro automático`);
+      await fetchData();
+      setExprProductoId('');
+      setExprCantidad(1);
+    } catch (e) {
+      showMensaje(`❌ ${e?.message || 'No se pudo registrar'}`);
+    } finally {
+      setExprSaving(false);
     }
   };
 
@@ -295,11 +330,76 @@ export default function VentasPage() {
 
           {tieneProductos && (
             <section className={styles.expressSection}>
-              <div className={styles.expressTitle}><span>🛍️ Venta de productos</span></div>
+              <div className={styles.expressTitle}>
+                <span>⚡ Venta express de productos</span>
+                <span className={styles.expressCount}>cobra sola</span>
+              </div>
+              <p className={styles.expressHint}>
+                Elegí un producto y la cantidad; registrás la venta al toque y se cobra sola (se descuenta del stock).
+              </p>
+              <div className={styles.exprBox}>
+                <select
+                  value={exprProductoId}
+                  onChange={(e) => setExprProductoId(e.target.value)}
+                  className={styles.exprSelect}
+                  disabled={productos.length === 0}
+                >
+                  <option value="">{productos.length === 0 ? 'No hay productos disponibles' : 'Seleccionar producto...'}</option>
+                  {productos.map((p) => (
+                    <option key={p.id} value={p.id}>
+                      {p.nombre} — ${Number(p.precio).toLocaleString('es-AR')} (stock {p.stock})
+                    </option>
+                  ))}
+                </select>
+
+                <div className={styles.exprQty}>
+                  <button
+                    type="button"
+                    className={styles.exprQtyBtn}
+                    onClick={() => setExprCantidad((c) => Math.max(1, c - 1))}
+                    disabled={!exprProducto || exprSaving}
+                  >−</button>
+                  <input
+                    type="number"
+                    min="1"
+                    max={exprProducto?.stock ?? 1}
+                    value={exprCantidad}
+                    onChange={(e) => setExprCantidad(Math.max(1, Number(e.target.value) || 1))}
+                    className={styles.exprQtyInput}
+                    disabled={!exprProducto || exprSaving}
+                  />
+                  <button
+                    type="button"
+                    className={styles.exprQtyBtn}
+                    onClick={() => setExprCantidad((c) => Math.min(exprProducto?.stock ?? c, c + 1))}
+                    disabled={!exprProducto || exprSaving}
+                  >+</button>
+                </div>
+
+                <div className={styles.exprTotal}>
+                  <span className={styles.exprTotalLabel}>Total</span>
+                  <strong className={styles.exprTotalValue}>${exprTotal.toLocaleString('es-AR')}</strong>
+                </div>
+
+                <div className={styles.exprBtns}>
+                  {METODOS.map((m) => (
+                    <button
+                      key={m}
+                      type="button"
+                      className={styles.exprPagar}
+                      onClick={() => venderExpress(m)}
+                      disabled={!exprProducto || exprSaving}
+                    >
+                      {exprSaving ? '...' : `${m === 'EFECTIVO' ? '💰' : m === 'TARJETA' ? '💳' : '🏦'} Vender ${m}`}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               <button className={styles.venderBtn} onClick={() => { setTipo('producto'); setShowModal(true); }}>
-                + Registrar venta de productos
+                + Venta por carrito (varios productos)
               </button>
-              <p className={styles.expressHint}>Elegí los productos, armá el carrito y cobrá. Se descuenta el stock sola.</p>
+              <p className={styles.expressHint}>Para vender varios productos juntos, usá el carrito.</p>
             </section>
           )}
         </div>

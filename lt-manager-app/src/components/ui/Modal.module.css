@@ -59,6 +59,10 @@
   transition: all var(--t-fast);
 }
 
+@media (max-width: 768px) {
+  .close { width: 44px; height: 44px; }
+}
+
 .close:hover {
   background: var(--c-bg);
   color: var(--c-text);
@@ -66,4 +70,28 @@
 
 .body {
   padding: var(--sp-5) var(--sp-6) var(--sp-6);
+}
+
+/* Teléfonos: modal a pantalla completa (más simple de usar para +60) */
+@media (max-width: 480px) {
+  .overlay {
+    padding: 0;
+    align-items: flex-start;
+    background: rgba(28, 28, 30, 0.6);
+  }
+
+  .modal {
+    height: 100%;
+    max-width: 100%;
+    border-radius: 0;
+    border: none;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .body {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--sp-4) var(--sp-5) calc(var(--sp-5) + env(safe-area-inset-bottom));
+  }
 }

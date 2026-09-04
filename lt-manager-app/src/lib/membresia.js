@@ -1,6 +1,13 @@
 // Cálculo del estado de membresía/cuota de un cliente según su último pago.
 // Pensado para rubros con servicios "plan" (GIMNASIO: Mensual/Trimestral/Anual),
 // donde la duración del servicio se mide en DÍAS.
+
+// Diferencia en días calendario entre dos fechas (local), sin desplazarse por DST.
+function diasEntre(a, b) {
+  const utcMidnight = (d) => Date.UTC(d.getFullYear(), d.getMonth(), d.getDate());
+  return Math.round((utcMidnight(new Date(a)) - utcMidnight(new Date(b))) / 86400000);
+}
+
 export function estadoMembresia(turnos) {
   const conPago = (turnos || [])
     .filter((t) => t.pago && t.servicio && Number(t.servicio.duracion) > 0)
@@ -16,7 +23,7 @@ export function estadoMembresia(turnos) {
   const hoy = new Date();
   hoy.setHours(0, 0, 0, 0);
 
-  const dias = Math.round((vence - hoy) / 86400000);
+  const dias = diasEntre(vence, hoy);
 
   let estado = 'VENCIDO';
   if (dias >= 0 && dias <= 3) estado = 'POR_VENCER';

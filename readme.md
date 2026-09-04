@@ -199,7 +199,7 @@ lt-manager-app/
 └─ public/                 # estáticos
 ```
 
-Documentación extendida en la raíz del repo: [`RESUMEN.md`](./RESUMEN.md) (documento maestro del proyecto).
+Guía rápida para programadores (cómo arrancar y organizar el código): [`LEEME.md`](./LEEME.md).
 
 ---
 

@@ -1,6 +1,7 @@
 // Definición de módulos disponibles y sus presets por rubro
 export const MODULOS = [
   { key: 'dashboard', label: 'Dashboard', href: '/', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
+  { key: 'ia', label: 'Asistente IA', href: '/ia', icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z' },
   { key: 'turnos', label: 'Turnos', href: '/turnos', icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z' },
   { key: 'clientes', label: 'Clientes', href: '/clientes', icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z' },
   { key: 'servicios', label: 'Servicios', href: '/servicios', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2' },
@@ -17,11 +18,11 @@ export const MODULOS = [
 // 'ventas' concentra el cobro de turnos y la venta de productos, por eso 'cobros'
 // queda fuera de los presets para no duplicar funcionalidad en la barra lateral.
 export const PRESETS_RUBRO = {
-  BARBERIA: ['dashboard', 'turnos', 'clientes', 'servicios', 'ventas', 'productos', 'gastos', 'reportes', 'mensajes'],
-  ESTETICA: ['dashboard', 'turnos', 'clientes', 'servicios', 'ventas', 'productos', 'gastos', 'reportes', 'mensajes'],
-  GIMNASIO: ['dashboard', 'turnos', 'clientes', 'servicios', 'ventas', 'gastos', 'reportes'],
-  COMERCIO: ['dashboard', 'ventas', 'productos', 'clientes', 'gastos', 'reportes', 'mensajes'],
-  ALMACEN: ['dashboard', 'ventas', 'productos', 'clientes', 'servicios', 'gastos', 'reportes', 'mensajes'],
+  BARBERIA: ['dashboard', 'turnos', 'clientes', 'servicios', 'ventas', 'productos', 'gastos', 'reportes', 'mensajes', 'ia'],
+  ESTETICA: ['dashboard', 'turnos', 'clientes', 'servicios', 'ventas', 'productos', 'gastos', 'reportes', 'mensajes', 'ia'],
+  GIMNASIO: ['dashboard', 'turnos', 'clientes', 'servicios', 'ventas', 'gastos', 'reportes', 'ia'],
+  COMERCIO: ['dashboard', 'ventas', 'productos', 'clientes', 'gastos', 'reportes', 'mensajes', 'ia'],
+  ALMACEN: ['dashboard', 'ventas', 'productos', 'clientes', 'servicios', 'gastos', 'reportes', 'mensajes', 'ia'],
 };
 
 export const RUBROS = [
@@ -46,10 +47,7 @@ export function rubroModulos(rubro) {
 // Devuelve los items de navegación del negocio según rubro + módulos personalizados
 export function itemsDelNegocio(negocio) {
   const modulos = parseModulos(negocio?.modulos) || rubroModulos(negocio?.rubro);
-  const items = MODULOS.filter((m) => modulos.includes(m.key));
-  // Configuración siempre está disponible
-  const config = MODULOS.find((m) => m.key === 'configuracion');
-  if (config && !items.some((i) => i.key === 'configuracion')) items.push(config);
+  const items = MODULOS.filter((m) => modulos.includes(m.key) || MODULOS_FIJOS.includes(m.key));
   return items;
 }
 

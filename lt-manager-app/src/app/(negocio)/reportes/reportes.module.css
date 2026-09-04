@@ -182,10 +182,10 @@
 }
 .comisiones { display: flex; flex-direction: column; gap: var(--sp-3); }
 .comisionCard { display: flex; gap: var(--sp-3); padding: var(--sp-4); }
-.comisionDot { width: 14px; height: 14px; border-radius: 999px; flex-shrink: 0; margin-top: 0.25rem; }
+.comisionDot { width: 14px; height: 14px; border-radius: var(--r-full); flex-shrink: 0; margin-top: 0.25rem; }
 .comisionInfo { flex: 1; min-width: 0; }
 .comisionNombre { font-weight: 700; font-size: 1rem; }
 .comisionMeta { font-size: 0.8rem; color: var(--c-text-2); margin-top: 0.1rem; }
-.comisionTrack { height: 8px; border-radius: 999px; background: var(--c-border); margin-top: 0.6rem; overflow: hidden; }
-.comisionBar { height: 100%; background: var(--c-accent); border-radius: 999px; transition: width var(--t-normal); }
+.comisionTrack { height: 8px; border-radius: var(--r-full); background: var(--c-border); margin-top: 0.6rem; overflow: hidden; }
+.comisionBar { height: 100%; background: var(--c-accent); border-radius: var(--r-full); transition: width var(--t-normal); }
 .comisionDetalle { display: flex; gap: var(--sp-4); margin-top: 0.5rem; font-size: 0.85rem; font-weight: 600; color: var(--c-text); flex-wrap: wrap; }

@@ -84,7 +84,7 @@
 
 .select:focus {
   border-color: var(--c-accent);
-  box-shadow: 0 0 0 3px rgba(201,123,47,0.12);
+  box-shadow: 0 0 0 3px var(--c-accent-soft);
 }
 
 .formActions {
@@ -275,4 +275,30 @@
 .debeBtn:hover {
   border-color: var(--c-yellow);
   color: var(--c-yellow);
+}
+
+/* Touch-friendly en móvil */
+@media (max-width: 600px) {
+  .summary {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .expressMetodoBtn,
+  .cobrarBtn,
+  .debeBtn {
+    min-height: 44px;
+    padding: 0.5rem 0.9rem;
+  }
+  .expressItem {
+    flex-wrap: wrap;
+  }
+  .expressBtns {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 380px) {
+  .summary {
+    grid-template-columns: 1fr;
+  }
 }

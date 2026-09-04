@@ -1,32 +1,37 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..700;1,14..32,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&display=swap');
 
 /* ─── Design Tokens ─────────────────────────────────────────── */
 :root {
-  /* Paleta única: Warm Neutral + Amber accent */
-  --c-bg:         #f5f3ef;      /* warm off-white, no fría */
+  /* Paleta única: Lavanda / índigo suave + acento violeta (2026)
+     Fondo cálido pero fresco, de baja fatiga para uso diario. */
+  --c-bg:         #f6f5fb;      /* lavanda-blancuzca cálida, no estéril */
   --c-surface:    #ffffff;
-  --c-surface-2:  #faf9f6;      /* tarjetas secundarias */
+  --c-surface-2:  #f2f0fc;      /* tarjetas secundarias (lavanda suave) */
 
-  --c-text:       #1c1c1e;      /* casi negro, calidez */
-  --c-text-2:     #6b6b6b;      /* subtextos */
-  --c-text-3:     #a0a0a0;      /* placeholders */
+  --c-text:       #201f2b;      /* gris-índigo profundo, menos agresivo que negro */
+  --c-text-2:     #6d6a80;      /* subtextos lavanda-gris */
+  --c-text-3:     #9d9aaf;      /* placeholders */
 
-  --c-border:     #e8e4dd;
-  --c-border-2:   #f0ece6;
+  --c-border:     #e5e2f2;
+  --c-border-2:   #efedf8;
 
-  --c-accent:     #c97b2f;      /* amber cálido, no amarillo chillón */
-  --c-accent-dim: #f3e8d8;      /* fondo de badges accent */
-  --c-accent-hover: #b36c26;
+  --c-accent:     #6d5ae0;      /* violeta / índigo vibrante */
+  --c-accent-dim: #e9e6fb;      /* fondo de badges accent (lavanda) */
+  --c-accent-hover: #5a48c4;
+  --c-accent-soft:  rgba(109,90,224,0.12);   /* focus rings / hovers suaves */
+  --c-accent-soft-2: rgba(109,90,224,0.2);   /* rings más marcados */
+  --c-accent-glow:  rgba(109,90,224,0.25);   /* sombras de botones primarios */
 
-  --c-navy:       #18181f;      /* sidebar */
-  --c-navy-2:     #24242e;      /* hover sidebar */
+  --c-navy:       #1d1b2e;      /* sidebar / bottom-bar (índigo profundo) */
+  --c-navy-2:     #2a2742;      /* hover sidebar */
 
-  --c-green:      #2a9d6f;      /* completado */
-  --c-green-dim:  #d6f0e7;
-  --c-red:        #c0392b;      /* error/cancelado */
-  --c-red-dim:    #fde8e6;
-  --c-yellow:     #d4861a;      /* pendiente */
-  --c-yellow-dim: #fef3db;
+  --c-green:      #2f9e73;      /* completado */
+  --c-green-dim:  #ddf2e9;
+  --c-red:        #c7443a;      /* error/cancelado */
+  --c-red-dim:    #fbe9e7;
+  --c-yellow:     #c78a1f;      /* pendiente */
+  --c-yellow-dim: #fdf1db;
 
   /* Typography */
   --font:     'Inter', system-ui, sans-serif;
@@ -43,18 +48,18 @@
   --sp-10: 2.5rem;
   --sp-12: 3rem;
 
-  /* Radii */
-  --r-sm:   4px;
-  --r-md:   8px;
-  --r-lg:   12px;
-  --r-xl:   16px;
+  /* Radii — suavemente redondeados, look moderno */
+  --r-sm:   6px;
+  --r-md:   10px;
+  --r-lg:   14px;
+  --r-xl:   18px;
   --r-full: 9999px;
 
-  /* Shadows — sutiles, no exageradas */
-  --sh-xs: 0 1px 2px rgba(0,0,0,.04);
-  --sh-sm: 0 1px 4px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
-  --sh-md: 0 4px 12px rgba(0,0,0,.07), 0 1px 3px rgba(0,0,0,.05);
-  --sh-lg: 0 8px 24px rgba(0,0,0,.09), 0 2px 6px rgba(0,0,0,.05);
+  /* Shadows — sutiles, con tinte lavanda (no negro puro) */
+  --sh-xs: 0 1px 2px rgba(32,31,43,0.05);
+  --sh-sm: 0 1px 4px rgba(32,31,43,0.06), 0 1px 2px rgba(32,31,43,0.05);
+  --sh-md: 0 4px 14px rgba(109,90,224,0.10), 0 1px 3px rgba(32,31,43,0.05);
+  --sh-lg: 0 10px 28px rgba(32,31,43,0.12), 0 2px 6px rgba(32,31,43,0.06);
 
   /* Transitions */
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
@@ -79,6 +84,31 @@ body {
 a { color: inherit; text-decoration: none; }
 button { font-family: inherit; border: none; background: none; cursor: pointer; }
 input, select, textarea { font-family: inherit; }
+
+/* Prevenir auto-zoom de iOS al enfocar campos */
+input, select, textarea { font-size: 16px; }
+
+/* ─── Accesibilidad ──────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+  border-radius: var(--r-sm);
+}
+
+/* Feedback táctil en dispositivos táctiles (el hover no existe en touch) */
+@media (hover: none) {
+  button:active, [role="button"]:active, a:active { opacity: 0.72; }
+}
+
+/* Mobile: contraste un poco más alto y área táctil mínima cómoda.
+   Los módulos pueden acotar elementos compactos con sus propias clases. */
+@media (max-width: 768px) {
+  :root { --c-text-2: #5a5a5a; --c-text-3: #757575; }
+
+  button, [role="button"], a[class],
+  input:not([type="checkbox"]):not([type="radio"]),
+  select, textarea { min-height: 44px; }
+}
 img { display: block; max-width: 100%; }
 
 /* ─── Utility Classes ────────────────────────────────────────── */

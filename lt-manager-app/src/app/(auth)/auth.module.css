@@ -9,7 +9,7 @@
 .card {
   width: 100%;
   max-width: 380px;
-  background: var(--c-card);
+  background: var(--c-surface);
   border: 1px solid var(--c-border);
   border-radius: var(--r-lg);
   padding: var(--sp-8);
@@ -19,7 +19,7 @@
 .cardWide {
   width: 100%;
   max-width: 460px;
-  background: var(--c-card);
+  background: var(--c-surface);
   border: 1px solid var(--c-border);
   border-radius: var(--r-lg);
   padding: var(--sp-8);
@@ -28,7 +28,7 @@
 
 .logo {
   text-align: center;
-  margin-bottom: var(--sp-7);
+  margin-bottom: var(--sp-8);
 }
 
 .logoMark {
@@ -54,7 +54,7 @@
 
 .subtitle {
   font-size: 0.875rem;
-  color: var(--c-muted);
+  color: var(--c-text-2);
   margin: 0;
 }
 
@@ -90,7 +90,7 @@
 .input:focus {
   outline: none;
   border-color: var(--c-accent);
-  box-shadow: 0 0 0 3px rgba(201,123,47,0.15);
+  box-shadow: 0 0 0 3px var(--c-accent-soft);
 }
 
 .rubros {
@@ -115,7 +115,7 @@
 }
 .rubroBtnActive {
   border-color: var(--c-accent);
-  background: rgba(201,123,47,0.1);
+  background: var(--c-accent-soft);
   color: var(--c-accent);
   font-weight: 600;
 }
@@ -138,7 +138,7 @@
   padding: var(--sp-3);
   border-radius: var(--r-md);
   background: rgba(220,38,38,0.1);
-  color: var(--c-error, #dc2626);
+  color: var(--c-red);
   font-size: 0.85rem;
   text-align: center;
 }
@@ -147,7 +147,7 @@
   margin-top: var(--sp-5);
   text-align: center;
   font-size: 0.85rem;
-  color: var(--c-muted);
+  color: var(--c-text-2);
 }
 
 .switchLink {
@@ -157,7 +157,7 @@
 }
 .switchLink:hover { text-decoration: underline; }
 
-/* ── Demo access ─────────────────────────────────────── */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Demo access Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 .demoBox {
   margin-top: var(--sp-5);
   padding-top: var(--sp-5);

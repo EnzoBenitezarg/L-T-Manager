@@ -11,14 +11,21 @@ export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
     const fecha = searchParams.get('fecha');
+    const desde = searchParams.get('desde');
+    const hasta = searchParams.get('hasta');
 
     const where = { negocioId: negocio.id };
     if (fecha) {
       // new Date('YYYY-MM-DDTHH:mm:ss') interpreta como hora local (Argentina, UTC-3),
-      // lo cual genera el rango UTC correcto para filtrar turnos del día.
+      // lo cual genera el rango UTC correcto para filtrar turnos del d��a.
       const inicio = new Date(`${fecha}T00:00:00`);
       const fin = new Date(`${fecha}T23:59:59.999`);
       where.fecha = { gte: inicio, lte: fin };
+    } else if (desde || hasta) {
+      const filtro = {};
+      if (desde) filtro.gte = new Date(`${desde}T00:00:00`);
+      if (hasta) filtro.lte = new Date(`${hasta}T23:59:59.999`);
+      where.fecha = filtro;
     }
 
     const turnos = await prisma.turno.findMany({
@@ -65,9 +72,14 @@ export async function POST(request) {
     const duracion = duracionOverride ? Number(duracionOverride) : servicio.duracion;
 
     // Serie de turnos recurrentes (validamos todos antes de crear cualquiera)
-    if (repetir && repetir.cantidad > 1) {
+    // "Sin límite" llega como cantidad 0 => creamos un lote semestral fijo (26 semanas).
+    const serieIlimitada = repetir && (String(repetir.cantidad) === '0' || Number(repetir.cantidad) === 0);
+    const serieCantidad = repetir && Number(repetir.cantidad) > 1;
+    if (repetir && (serieIlimitada || serieCantidad)) {
       const cadaSemanas = Math.max(1, Number(repetir.cadaSemanas) || 1);
-      const cantidad = Math.min(12, Number(repetir.cantidad) || 2);
+      const cantidad = serieIlimitada
+        ? 26
+        : Math.min(12, Math.max(2, Math.floor(Number(repetir.cantidad)) || 2));
       const inicioSerie = new Date(fecha);
       const fechasSept = [];
       const errores = [];

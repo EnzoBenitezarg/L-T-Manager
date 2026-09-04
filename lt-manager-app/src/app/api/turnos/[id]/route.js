@@ -36,12 +36,40 @@ export async function PATCH(request, { params }) {
     // Mover toda una serie de turnos recurrentes
     if (moverSerie && turno.serieId && fecha) {
       const deltaMs = new Date(fecha).getTime() - turno.fecha.getTime();
-      const serie = await prisma.turno.findMany({ where: { serieId: turno.serieId, negocioId: negocio.id } });
+      const serie = await prisma.turno.findMany({
+        where: { serieId: turno.serieId, negocioId: negocio.id },
+        include: { servicio: true },
+      });
+
+      // Resolver y validar cliente/servicio/duración comunes de la serie (si se indican)
+      let nClienteId = clienteId != null ? Number(clienteId) : turno.clienteId;
+      let nServicioId = servicioId != null ? Number(servicioId) : turno.servicioId;
+      let aServicio = turno.servicio;
+      if (nServicioId !== turno.servicioId) {
+        aServicio = await prisma.servicio.findFirst({ where: { id: nServicioId, negocioId: negocio.id } });
+        if (!aServicio) {
+          return NextResponse.json({ error: 'El servicio no pertenece a este negocio' }, { status: 400 });
+        }
+      }
+      if (nClienteId !== turno.clienteId) {
+        const clNuevo = await prisma.cliente.findFirst({ where: { id: nClienteId, negocioId: negocio.id } });
+        if (!clNuevo) {
+          return NextResponse.json({ error: 'El cliente no pertenece a este negocio' }, { status: 400 });
+        }
+      }
+
+      // Campos a aplicar a TODOS los turnos de la serie (no solo la fecha)
+      const dataComun = {};
+      if (estado) dataComun.estado = estado;
+      if (clienteId != null) dataComun.clienteId = nClienteId;
+      if (servicioId != null) dataComun.servicioId = nServicioId;
+      if (duracionOverride != null) dataComun.duracionOverride = Number(duracionOverride);
+
       const nuevos = [];
       for (const t of serie) {
         const f = new Date(new Date(t.fecha).getTime() + deltaMs);
         const nProf = profesionalId !== undefined ? nProfesionalId : t.profesionalId;
-        const duracionE = t.duracionOverride || t.servicio?.duracion || 0;
+        const duracionE = t.duracionOverride || aServicio?.duracion || t.servicio?.duracion || 0;
         const errores = await validarTurno({
           negocioId: negocio.id,
           inicio: f,
@@ -55,9 +83,11 @@ export async function PATCH(request, { params }) {
             { status: 409 }
           );
         }
-        nuevos.push({ id: t.id, fecha: f });
+        nuevos.push({ id: t.id, fecha: f, dataComun });
       }
-      await prisma.$transaction(nuevos.map((n) => prisma.turno.update({ where: { id: n.id }, data: { fecha: n.fecha } })));
+      await prisma.$transaction(
+        nuevos.map((n) => prisma.turno.update({ where: { id: n.id }, data: { ...n.dataComun, fecha: n.fecha } }))
+      );
       return NextResponse.json({ ok: true, movidos: nuevos.length });
     }
 

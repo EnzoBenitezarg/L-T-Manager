@@ -92,11 +92,22 @@ export async function POST(request) {
   try {
     const body = await request.json();
     const { fecha, apertura, conteoReal } = body;
-    const dia = fecha || toLocalDateString(new Date());
+    let dia = fecha || toLocalDateString(new Date());
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(dia) || isNaN(new Date(dia + 'T12:00:00').getTime())) {
+      dia = toLocalDateString(new Date());
+    }
 
     const data = {};
-    if (apertura != null) data.apertura = Number(apertura);
-    if (conteoReal != null) data.conteoReal = Number(conteoReal);
+    if (apertura != null && apertura !== '') {
+      const a = Number(apertura);
+      if (!Number.isFinite(a) || a < 0) return NextResponse.json({ error: 'Apertura inválida' }, { status: 400 });
+      data.apertura = a;
+    }
+    if (conteoReal != null && conteoReal !== '') {
+      const c = Number(conteoReal);
+      if (!Number.isFinite(c) || c < 0) return NextResponse.json({ error: 'Conteo inválido' }, { status: 400 });
+      data.conteoReal = c;
+    }
 
     const todas = await prisma.caja.findMany({ where: { negocioId: negocio.id } });
     const existente = todas.find((c) => toLocalDateString(c.fecha) === dia);
@@ -108,8 +119,8 @@ export async function POST(request) {
       caja = await prisma.caja.create({
         data: {
           fecha: new Date(dia + 'T12:00:00'),
-          apertura: apertura != null ? Number(apertura) : 0,
-          conteoReal: conteoReal != null ? Number(conteoReal) : null,
+          apertura: apertura != null && apertura !== '' ? Number(apertura) : 0,
+          conteoReal: conteoReal != null && conteoReal !== '' ? Number(conteoReal) : null,
           negocioId: negocio.id,
         },
       });

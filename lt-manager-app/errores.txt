@@ -1,0 +1,190 @@
+==========================================================
+L&T MANAGER — REGISTRO DE ERRORES / BUGS DETECTADOS
+Auditoría: revisión de código + logs. Estado: PENDIENTE/FIXEADO
+==========================================================
+
+Rutas relativas a src/  (schema en prisma/schema.prisma)
+
+----------------------------------------------------------
+SEVERIDAD ALTA
+----------------------------------------------------------
+
+[ALTA] 1. Stock de productos puede quedar NEGATIVO (o subir) al vender
+  - ARCHIVO: app/api/ventas/route.js
+  - LINEA:   40-43
+  - DESCRIPCION: En la transacción se hacía `stock: producto.stock - Number(it.cantidad)`
+    sin validar cantidad >= 1 ni cantidad <= stock. Con cantidad 99 y stock 5 quedaba
+    stock -94; con cantidad -2 el stock AUMENTABA. Además el precio lo mandaba el cliente
+    (`Number(it.precio) || producto.precio`) sin verificar contra producto.precio.
+  - FIX:   FIXEADO — Cantidad validada (entero >= 1 y <= stock, devuelve 409 si falta
+    stock y 400 si cantidad/valor inválido). Stock se descuenta con `{ decrement }`.
+    El precio lo toma el backend (`producto.precio`), ignorando el del cliente.
+
+[ALTA] 2. Opción "Sin límite (semanal fijo)" de turnos recurrentes NO crea la serie
+  - ARCHIVO: app/api/turnos/route.js
+  - LINEA:   68 (`if (repetir && repetir.cantidad > 1)`)
+  - DESCRIPCION: El front ofrece `<option value="0">Sin límite (semanal fijo)</option>`
+    (turnos/page.js L336). El backend solo generaba serie si `repetir.cantidad > 1`.
+    Con "0" caía al path de turno único -> el cliente perdía la recurrencia en silencio.
+  - FIX:   FIXEADO — Se detecta `cantidad === 0` ("Sin límite"): entra a la serie con un
+    lote semestral fijo de 26 instancias (recurrentes reales en vez de un único turno).
+
+[ALTA] 3. Empleado/ADMIN (miembro no dueño) NO puede entrar a su negocio
+  - ARCHIVO: app/api/negocios/[id]/route.js
+  - LINEA:   5-7 (función pertenece)
+  - DESCRIPCION: `pertenece` solo revisaba `usuario.negocios` (negocios de los que es
+    DUEÑO). Un miembro del equipo tiene su acceso en `usuario.miembros`, por lo que
+    `POST /api/negocios/[id]` (seleccionar negocio en /home) devolvía 403 -> nunca podía
+    elegir su negocio como activo.
+  - FIX:   FIXEADO — La función `accede` usa `negociosDelUsuario(usuario)` (dueños +
+    miembros del equipo). POST ahora lo permite a miembros.
+
+[ALTA] 4. Admin miembro no puede editar Configuración del negocio
+  - ARCHIVO: app/api/negocios/[id]/route.js
+  - LINEA:   24 (PATCH) y 49 (DELETE)
+  - DESCRIPCION: PATCH/DELETE usaban `pertenece` (propiedad). Un ADMIN/encargado con
+    acceso a configuración recibía 403 en cada guardado (configuracion/page.js PATCH) y
+    en el borrado (EquipoPanel).
+  - FIX:   FIXEADO — PATCH ahora valida con `esAdminDeNegocio(usuario, negocio, miembro)`
+    (dueño o rol encargado/administrador). DELETE se mantiene restringido al DUEÑO (acción
+    crítica de borrado).
+
+[ALTA] 6. Mover una serie de turnos descarta los demás cambios del request
+  - ARCHIVO: app/api/turnos/[id]/route.js
+  - LINEA:   37-62
+  - DESCRIPCION: En el branch `moverSerie` solo se persistía `{ fecha }` en cada turno de
+    la serie; `estado`, `clienteId`, `servicioId`, `duracionOverride`, `profesionalId` del
+    mismo body se perdían (el profesional nuevo solo se usaba para validar choques).
+  - FIX:   FIXEADO — El branch aplica también `estado`, `clienteId`, `servicioId` y
+    `duracionOverride` (validación de pertenencia al negocio incluida) a todos los turnos
+    de la serie, además de la fecha desplazada.
+
+----------------------------------------------------------
+SEVERIDAD MEDIA
+----------------------------------------------------------
+
+[MEDIA] 8. handleVentaProducto no comprueba res.ok -> mostraba éxito aunque fallara
+  - ARCHIVO: app/(negocio)/ventas/page.js
+  - LINEA:   117-134
+  - DESCRIPCION: fetch('/api/ventas') sin leer respuesta. Si la API devolvía 400/500, la
+    UI igual mostraba "Venta registrada" y vaciaba el carrito.
+  - FIX:   FIXEADO — Se lee la respuesta, se lanza el error del backend si `!res.ok` y
+    solo se vacía el carrito / cierra el modal cuando la venta tuvo éxito.
+
+[MEDIA] 9. Dashboard se rompe (pantalla en blanco) si /api/dashboard falla
+  - ARCHIVO: app/(negocio)/page.js
+  - LINEA:   30-34 y 196 (stats.proximosTurnos.length), 186 (stats.gastosHoy)
+  - DESCRIPCION: fetch sin chequear res.ok; con `{error}` stats.esRetail era undefined.
+  - FIX:   FIXEADO — Se chequea `res.ok` y, ante error o forma inesperada, se sanea el
+    estado con defaults (arrays vacíos / 0) para que el render nunca crashee.
+
+[MEDIA] 10. Fetchs de páginas cliente sin try/catch ni chequeo de ok -> loading infinito
+  - ARCHIVO: app/(negocio)/turnos/page.js (L441-446, 458-467) y patrón repetido en
+    clientes/ventas/cobros/etc.
+  - DESCRIPCION: Un 500 o error de red deja "Cargando..." infinito o lanza unhandled
+    rejection.
+  - FIX:   PARCIAL — Envolvidos en try/catch con `loading:false` los fetchs de la página
+    de turnos (turnos, bloqueos, espera, soporte). El mismo patrón se repite en otras
+    páginas cliente sin romper la app (quedan como mejora defensiva de UX pendiente).
+
+[MEDIA] 11. PUT de productos/servicios sin validación -> .trim() sobre undefined 500
+  - ARCHIVO: app/api/productos/[id]/route.js (L15-19), app/api/servicios/[id]/route.js (L16-20)
+  - DESCRIPCION: nombre.trim()/Number(precio) sin validar presencia. Body incompleto -> 500.
+  - FIX:   FIXEADO — Se valida que `nombre` sea requerido y que `precio` sea un número
+    válido >= 0 (400 si no). Montos/duración se sanitizan (evita NaN/negativos).
+
+[MEDIA] 12. POST caja crea caja con datos parciales y sin validar
+  - ARCHIVO: app/api/caja/route.js
+  - LINEA:   107-116 y 93-99
+  - DESCRIPCION: Crea Caja del día con apertura 0 aunque el usuario solo guarde conteo;
+    fecha malformada -> Invalid Date; permitía NaN.
+  - FIX:   FIXEADO — Fecha validada (formato YYYY-MM-DD y parseable, sino usa hoy).
+    Apertura/conteo validados (números finitos >= 0, 400 si no).
+
+[MEDIA] 13. GET /api/miembros expone emails del equipo a cualquier rol
+  - ARCHIVO: app/api/miembros/route.js
+  - LINEA:   7-31
+  - DESCRIPCION: Cualquier miembro autenticado puede listar nombre+email del equipo.
+  - FIX:   PENDIENTE (requiere decisión de producto: los empleados pueden necesitar ver a
+    sus compañeros; restringir solo a dueño podría romper flujos legítimos).
+
+[MEDIA] 15. cobros/cuota: monto inválido produce NaN y lógica de membresía frágil
+  - ARCHIVO: app/api/cobros/cuota/route.js
+  - LINEA:   29
+  - DESCRIPCION: Number('abc') = NaN -> Pago con monto NaN (500). Membresía se deriva del
+    último pago sin dedupe por servicio concreto.
+  - FIX:   FIXEADO (parte NaN) — Se valida `Number.isFinite` y >= 0 para el monto; si es
+    inválido se usa el precio del servicio. La lógica de dedupe por servicio queda como
+    mejora de producto (fuera de bug de ejecución).
+
+----------------------------------------------------------
+SEVERIDAD BAJA
+----------------------------------------------------------
+
+[BAJA] 14. negocios/activo: JSON.parse(negocio.modulos) puede lanzar 500
+  - ARCHIVO: app/api/negocios/activo/route.js
+  - LINEA:   12
+  - FIX:   FIXEADO — Se usa `parseModulos` de lib/navegacion (try/catch interno con
+    fallback a los módulos por defecto del rubro).
+
+[BAJA] 16. bloqueos GET por fecha omite bloqueos recurrentes del día
+  - ARCHIVO: app/api/bloqueos/route.js
+  - LINEA:   12-19
+  - FIX:   PENDIENTE — Requiere integrar los bloqueos `tipo: 'semana'` cuyo `diaSemana`
+    coincide con la fecha pedida junto a los de fecha concreta; riesgo de afectar la
+    validación de choques si se devuelven con forma distinta. Pendiente de validación
+    cuidadosa.
+
+[BAJA] 17. clientes GET gimnasio incluye TODOS los turnos (ineficiente)
+  - ARCHIVO: app/api/clientes/route.js
+  - LINEA:   17-25
+  - FIX:   PENDIENTE — Optimización de rendimiento, no es bug de funcionamiento.
+
+[BAJA] 18. horarios valida horas comparando strings ("9:30" > "10:00")
+  - ARCHIVO: app/api/horarios/route.js
+  - LINEA:   46
+  - FIX:   N/A / YA CORRECTO — La comparación usa `aMinutos(h.apertura/cierre)`
+    (minutos numéricos, lib/fecha.js), no strings. El reporte estaba desactualizado.
+
+[BAJA] 19. membresia: vence se calcula con Math.round -> ±1 día por timezone/DST
+  - ARCHIVO: lib/membresia.js
+  - LINEA:   12-19
+  - FIX:   FIXEADO — Diferencia de días por calendario local vía `Date.UTC(y,m,d)`,
+    inmune a cambios de hora (DST).
+
+[BAJA] 20. exportar sin try/catch (500 sin mensaje) ni whitelist de seccion
+  - ARCHIVO: app/api/exportar/route.js
+  - LINEA:   28-37
+  - FIX:   FIXEADO — Se añadió whitelist de sección (400 si inválida) y try/catch que
+    devuelve un 500 con mensaje claro.
+
+[BAJA] 22. comparaciones de IDs mezclando string/number (frágil)
+  - ARCHIVO: app/(negocio)/turnos/page.js (L62, 193, 275, 486)
+  - FIX:   PENDIENTE — Comparaciones de bajo riesgo/impacto; cambiarlas en masa podría
+    introducir regresiones. Se deja documentado, no confirmado como causa de fallo.
+
+[BAJA] 23. mensajes: difusión depende de `seleccionados` mutable (cambiar filtro a mitad
+    de envío altera la lista) y puede re-abrir el primer cliente
+  - ARCHIVO: app/(negocio)/mensajes/page.js (L229-243)
+  - FIX:   FIXEADO — `empezarEnvio` captura un snapshot de las URLs en `envioLinks`; el
+    flujo "Siguiente" y la barra de progreso usan ese snapshot fijo, inmune a cambios de
+    filtro/selección a mitad de envío.
+
+----------------------------------------------------------
+NOTA DE ALCANCE GENERAL
+----------------------------------------------------------
+- La gran mayoría de fetch en páginas client no comprueban res.ok ni manejan errores, y
+  muchos renders asumen datos presentes. Se corregieron los casos con crash o pérdida
+  silenciosa de estado (Dashboard, ventas, turnos). El resto queda como mejora defensiva
+  de UX.
+
+- [BAJA] 21: los modelos Deuda/DeudaAbono/Promo/GiftCard/Presupuesto/Compra/Proveedor
+  están en el schema pero sin implementar en código (roadmap, no es bug de ejecución).
+
+- La validación de rol server-side en APIs financieras (gastos, caja, horarios, reportes)
+  está incompleta: solo se controla "hay negocio activo", no el rol. Requiere decisión de
+  producto antes de restringir (para no romper flujos legítimos de empleados). PENDIENTE.
+
+----------------------------------------------------------
+ESTADO GENERAL: Lint OK · Build OK
+----------------------------------------------------------

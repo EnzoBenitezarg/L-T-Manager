@@ -136,3 +136,7 @@
 .checkItem:last-child {
   border-bottom: none;
 }
+
+@media (max-width: 600px) {
+  .row { grid-template-columns: 1fr; }
+}
